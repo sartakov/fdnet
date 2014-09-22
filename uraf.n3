@@ -1,0 +1,194 @@
+#@prefix server:  <http://papers.ksyslabs.org/net/server.rdfs#> .
+#@prefix subnet:  <http://papers.ksyslabs.org/net/subnet.rdfs#> .
+#@prefix program:  <http://papers.ksyslabs.org/net/program.rdfs#> .
+
+#
+#Programs
+#
+
+#
+# clients
+#
+
+@forSome <#cryptoapm1client80> .
+<#cryptoapm1client80>	a <Program> .
+<#cryptoapm1client80>	<name>			"cryptoclient80" .
+<#cryptoapm1client80>	<communicateWith>	<#crypto80sp1> .
+
+@forSome <#cryptoapm1client8000> .
+<#cryptoapm1client8000>	a <Program> .
+<#cryptoapm1client8000>	<name>		"cryptoclient8000" .
+<#cryptoapm1client8000>	<communicateWith>	<#crypto8000sp1> .
+
+@forSome <#vpn1apm1client666> .
+<#vpn1apm1client666>	a <Program> .
+<#vpn1apm1client666>	<name>		"vpn1apm1client666" .
+<#vpn1apm1client666>	<communicateWith>	<#vpn1666> .
+
+@forSome <#cs1apm1client666> .
+<#cs1apm1client666>	a <Program> .
+<#cs1apm1client666>	<name>		"cs1apm1client666" .
+<#cs1apm1client666>	<communicateWith>	<#cs1666> .
+
+@forSome <#sp1client514> .
+<#sp1client514>	a <Program> .
+<#sp1client514>	<name>		"client to 514" .
+<#sp1client514>	<communicateWith>	<#514sp1> .
+
+@forSome <#sp1client199> .
+<#sp1client199>	a <Program> .
+<#sp1client199>	<name>		"client to 199" .
+<#sp1client199>	<communicateWith>	<#199sp1> .
+
+@forSome <#sp1client22> .
+<#sp1client22>	a <Program> .
+<#sp1client22>	<name>		"client to 22" .
+<#sp1client22>	<communicateWith>	<#22sp1> .
+
+@forSome <#s1client1414> .
+<#s1client1414>	a <Program> .
+<#s1client1414>	<name>		"client to 1414" .
+<#s1client1414>	<communicateWith>	<#sp1port1414> .
+
+@forSome <#cs1client10060> .
+<#cs1client10060>	a <Program> .
+<#cs1client10060>	<name>		"client to 10060" .
+<#cs1client10060>	<communicateWith>	<#cs1port10060> .
+
+#
+# program servers
+#
+
+@forSome <#mysqlsp1> .
+<#mysqlsp1>	a <Program> .
+<#mysqlsp1>	<name>		"mysql" .
+<#mysqlsp1>	<listenPort>	"3306" .
+
+@forSome <#crypto80sp1> .
+<#crypto80sp1>	a <Program> .
+<#crypto80sp1>	<name>		"crypto_server1" .
+<#crypto80sp1>	<listenPort>	"80" .
+
+@forSome <#crypto8000sp1> .
+<#crypto8000sp1>	a <Program> .
+<#crypto8000sp1>	<name>		"crypto_server2" .
+<#crypto8000sp1>	<listenPort>	"8000" .
+
+@forSome <#22sp1> .
+<#22sp1>	a <Program> .
+<#22sp1>	<name>		"22 port" .
+<#22sp1>	<listenPort>	"22" .
+
+@forSome <#199sp1> .
+<#199sp1>	a <Program> .
+<#199sp1>	<name>		"199 port" .
+<#199sp1>	<listenPort>	"199" .
+
+@forSome <#514sp1> .
+<#514sp1>	a <Program> .
+<#514sp1>	<name>		"514 port" .
+<#514sp1>	<listenPort>	"514" .
+
+@forSome <#vpn1666> .
+<#vpn1666>	a <Program> .
+<#vpn1666>	<name>		"CFG_VPN" .
+<#vpn1666>	<listenPort>	"666" .
+
+@forSome <#cs1666> .
+<#cs1666>	a <Program> .
+<#cs1666>	<name>		"CFG_CS" .
+<#cs1666>	<listenPort>	"666" .
+
+@forSome <#cs1port10060> .
+<#cs1port10060>	a <Program> .
+<#cs1port10060>	<name>		"10060 port" .
+<#cs1port10060>	<listenPort>	"10060" .
+
+@forSome <#sp1port1414> .
+<#sp1port1414>	a <Program> .
+<#sp1port1414>	<name>		"1414 is open" .
+<#sp1port1414>	<listenPort>	"1414" .
+
+
+#
+#Servers
+#
+
+@forSome <#sp1> .
+<#sp1>		a <Server> .
+<#sp1>		<name>		"SP1" .
+<#sp1>		<ip>		"1.1.1.5" .
+<#sp1>		<hasProgram>	<#mysqlsp1> .
+<#sp1>		<hasProgram>	<#crypto80sp1> .
+<#sp1>		<hasProgram>	<#crypto8000sp1> .
+<#sp1>		<hasProgram>	<#514sp1> .
+<#sp1>		<hasProgram>	<#199sp1> .
+<#sp1>		<hasProgram>	<#22sp1> .
+<#sp1>		<hasProgram>	<#sp1port1414> .
+<#sp1>		<hasProgram>	<#cs1client10060> .
+
+@forSome <#cs1> .
+<#cs1>		a <Server> .
+<#cs1>		<name>		"CS1" .
+<#cs1>		<ip>		"1.1.1.3" .
+<#cs1>		<hasProgram>	<#cs1666> .
+<#cs1>		<hasProgram>	<#cs1port10060> .
+
+@forSome <#vpn1> .
+<#vpn1>		a <Server> .
+<#vpn1>		<name>		"VPN1" .
+<#vpn1>		<ip>		"1.1.1.1" .
+<#vpn1>		<hasProgram>	<#vpn1666> .
+
+@forSome <#apm1> .
+<#apm1>		a <Server> .
+<#apm1>		<name>		"APM1" .
+<#apm1>		<ip>		"1.1.1.10" .
+<#apm1>		<hasProgram>	<#cryptoapm1client80> .
+<#apm1>		<hasProgram>	<#cryptoapm1client8000> .
+<#apm1>		<hasProgram>	<#vpn1apm1client666> .
+<#apm1>		<hasProgram>	<#cs1apm1client666> .
+
+@forSome <#x> .
+<#x>		a <Server> .
+<#x>		<name>		"X" .
+<#x>		<ip>		"3.1.1.1" .
+<#x>		<hasProgram>	<#cs1vpnclient666> .
+<#x>		<hasProgram>	<#sp1client22> .
+<#x>		<hasProgram>	<#sp1client199> .
+<#x>		<hasProgram>	<#sp1client514> .
+
+
+@forSome <#S1> .
+<#S1>		a <Server> .
+<#S1>		<name>		"S1" .
+<#S1>		<ip>		"2.1.1.1" .
+<#S1>		<hasProgram>	<#s1client1414> .
+
+#
+#nets
+#
+
+@forSome <#net1> .
+<#net1>		a <Subnet> .
+<#net1>		<name>		"NET1" .
+<#net1>		<hasServer>	<#sp1> .
+<#net1>		<hasServer>	<#vpn1> .
+<#net1>		<hasServer>	<#cs1> .
+
+@forSome <#net2> .
+<#net2>		a <Subnet> .
+<#net2>		<name>		"NET2" .
+<#net2>		<hasServer>	<#S1> .
+
+
+@forSome <#netA> .
+<#netA>		a <Subnet> .
+<#netA>		<name>		"NETA" .
+<#netA>		<hasServer>	<#apm1> .
+
+@forSome <#net3> .
+<#net3>		a <Subnet> .
+<#net3>		<name>		"NET3" .
+<#net3>		<hasServer>	<#x> .
+

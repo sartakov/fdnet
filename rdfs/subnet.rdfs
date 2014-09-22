@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf [
+   <!ENTITY rdfs     "http://www.w3.org/2000/01/rdf-schema">
+
+    ]>
+
+<rdf:RDF  
+   xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="&rdfs;#"
+   xmlns     ="&rdfs;#" >
+
+<Class rdf:ID="Subnet">
+  <domain rdf:resource="#Subnet"/>
+  <label xml:lang="en">subnet</label>
+  <comment xml:lang="en">There is a subnet </comment>
+</Class>
+
+<Class rdf:ID="name">
+  <domain rdf:resource="#Subnet"/>
+  <label xml:lang="en">name</label>
+  <comment xml:lang="en">subnet has name </comment>
+</Class>
+
+<rdf:Property rdf:ID="hasServer">
+  <domain rdf:resource="#Subnet"/>
+  <label xml:lang="en">hasServer</label>
+  <comment xml:lang="en">Subnet consits of servers</comment>
+</rdf:Property>
+
+</rdf:RDF>
+
