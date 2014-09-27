@@ -215,7 +215,9 @@ for i in range (0, len(src_ip)):
 for i in range (0, len(src_ip)):
 	add_dst_src(src_ip[i], dst_ip[i])
 
-#os.mkdir("output")
+if not os.path.exists("output"):
+    os.makedirs("output")
+
 sid=6000000
 
 f = open("output/"+fn_short+'.rules', 'w+')
