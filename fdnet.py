@@ -9,10 +9,11 @@ import pygraphviz as ppp
 import os
 
 if len(sys.argv) < 2:
-    print "Please provide network structure in RDF format. Example: fdnet.py text.RDF"
+    print "Please provide network structure in RDF format. Example: fdnet.py text.rdf"
     sys.exit()
 else:
     fname=sys.argv[1]
+    fn_short=fname[:4]
 
 print fname
 g = Graph()
@@ -141,22 +142,42 @@ for i in range (0, len(src_prog)):
     print src_ip[i]+":"+" -> "+dst_ip[i]+":"+dst_port[i]
 
 
-print "-------- SNORT Rules --------" 
-
+print "-------- Suricata rules --------" 
+#output
 u_src_prog=[]
 u_dst_prog=[]
 u_dst_ip=[]
 u_dst_port=[]
 u_src_ip=[]
 
-#retrun
+#overall
 ret_src_ip=[]
 ret_dst_ip=[]
+
+#input
+in_src_ip=[]
+in_dst_ip=[]
+
+
+#
+def add_dst_src(s_ip, d_ip):
+    global in_src_ip;
+    global in_dst_ip;
+#    print (s_ip, d_ip)
+    for i in range (0, len(in_dst_ip)):
+	if in_dst_ip[i]==d_ip and s_ip in in_src_ip[i]:
+	    return;
+	elif in_dst_ip[i]==d_ip:
+	    in_src_ip[i]=in_src_ip[i]+", "+s_ip;
+	    return;
+    in_dst_ip.append(d_ip)
+    in_src_ip.append(s_ip)
+
 
 def add_src_dst(s_ip, d_ip):
     global ret_src_ip;
     global ret_dst_ip;
-    print (s_ip, d_ip)
+#    print (s_ip, d_ip)
     for i in range (0, len(ret_src_ip)):
 	if ret_src_ip[i]==s_ip and d_ip in ret_dst_ip[i]:
 	    return;
@@ -164,7 +185,7 @@ def add_src_dst(s_ip, d_ip):
 	    ret_dst_ip[i]=ret_dst_ip[i]+", "+d_ip;
 	    return;
     ret_src_ip.append(s_ip)
-    ret_dst_ip.append("["+d_ip)
+    ret_dst_ip.append(d_ip)
 
 
 def add_src_dst_port(s_ip, s_port, d_ip, d_port):
@@ -178,7 +199,7 @@ def add_src_dst_port(s_ip, s_port, d_ip, d_port):
 	    return;
     u_src_ip.append(s_ip)
     u_dst_ip.append(d_ip)
-    u_dst_port.append("["+d_port)
+    u_dst_port.append(d_port)
 	
 
 for i in range (0, len(src_ip)):
@@ -188,15 +209,42 @@ for i in range (0, len(src_ip)):
 for i in range (0, len(src_ip)):
 	add_src_dst(src_ip[i], dst_ip[i])
 
+for i in range (0, len(src_ip)):
+	add_src_dst(src_ip[i], dst_ip[i])
+
+for i in range (0, len(src_ip)):
+	add_dst_src(src_ip[i], dst_ip[i])
+
+#os.mkdir("output")
+sid=6000000
+
+f = open("output/"+fn_short+'.rules', 'w+')
+s = open("output/sid-msg.map", 'w+')
+
+print "-------- output --------" 
 for i in range (0, len(u_src_ip)):
-    print "alert tcp "+u_src_ip[i]+" any -> "+u_dst_ip[i]+" !"+u_dst_port[i]+"]"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
+#    print "alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
+    f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+    s.write(str(sid)+"|| Wrong port connection\n");
+    sid+=1
 
-print "-------- return --------" 
+print "-------- input --------" 
+for i in range (0, len(in_dst_ip)):
+#    print "alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
+    f.write("alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Incomming connection from illegal IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+    s.write(str(sid)+"|| Incomming connection from illegal IP\n");
+    sid+=1
 
+print "-------- overall --------" 
 for i in range (0, len(ret_src_ip)):
-    print "alert tcp "+ret_src_ip[i]+" any -> !"+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
-    print "alert tcp !"+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
+#    print "alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
+    f.write("alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Outgoing connections to illegal IPs\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+    s.write(str(sid)+"|| Outgoing connection to illegal IP\n");
+    sid+=1
+#    print "alert tcp !["+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
+    f.write("alert tcp !["+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Incomming connections from illegal IPs \"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+    s.write(str(sid)+"|| Incomming connection from illegal IPs\n");
+    sid+=1
 
-
-dot_base.draw(fname+'.png',format='png',prog='dot')
-dot_base.draw(fname+'.dot',format='dot',prog='dot')
+dot_base.draw("output/"+fn_short+'.png',format='png',prog='dot')
+dot_base.draw("output/"+fn_short+'.dot',format='dot',prog='dot')

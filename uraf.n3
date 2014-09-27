@@ -55,6 +55,12 @@
 <#cs1client10060>	<name>		"client to 10060" .
 <#cs1client10060>	<communicateWith>	<#cs1port10060> .
 
+@forSome <#> .
+<#cs1vpnclient666>	a <Program> .
+<#cs1vpnclient666>	<name>		"client to vpn 666" .
+<#cs1vpnclient666>	<communicateWith>	<#cs1666> .
+
+
 #
 # program servers
 #
