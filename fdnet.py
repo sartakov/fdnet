@@ -135,10 +135,68 @@ for i in range (0, len(src_prog)):
     dot_base.add_edge(src_prog[i], dst_prog[i])
     print src_prog[i]+":"+" -> "+dst_prog[i]+":"+dst_port[i]
 
-print "-------- Snort Rules--------" 
+print "--------  links --------"
+print "SRC_IP -> DST_IP:DST_PORT"
 for i in range (0, len(src_prog)):
-    print "alert tcp "+src_ip[i]+" any -> "+dst_ip[i]+" !"+dst_port[i]+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)"
-    print "alert tcp "+src_ip[i]+" any -> !"+dst_ip[i]+" "+dst_port[i]+ " (msg:\" Attempt to connect to wrong port\"; rev:1; classtype:tcp-connection; sid:6000002;)"
+    print src_ip[i]+":"+" -> "+dst_ip[i]+":"+dst_port[i]
+
+
+print "-------- SNORT Rules --------" 
+
+u_src_prog=[]
+u_dst_prog=[]
+u_dst_ip=[]
+u_dst_port=[]
+u_src_ip=[]
+
+#retrun
+ret_src_ip=[]
+ret_dst_ip=[]
+
+def add_src_dst(s_ip, d_ip):
+    global ret_src_ip;
+    global ret_dst_ip;
+    print (s_ip, d_ip)
+    for i in range (0, len(ret_src_ip)):
+	if ret_src_ip[i]==s_ip and d_ip in ret_dst_ip[i]:
+	    return;
+	elif ret_src_ip[i]==s_ip:
+	    ret_dst_ip[i]=ret_dst_ip[i]+", "+d_ip;
+	    return;
+    ret_src_ip.append(s_ip)
+    ret_dst_ip.append("["+d_ip)
+
+
+def add_src_dst_port(s_ip, s_port, d_ip, d_port):
+    global u_src_ip;
+    global u_dst_ip;
+    global u_src_port;
+    global u_dst_port;
+    for i in range (0, len(u_src_ip)):
+	if u_src_ip[i]==s_ip and u_dst_ip[i]==d_ip:
+	    u_dst_port[i]=u_dst_port[i]+", "+d_port;
+	    return;
+    u_src_ip.append(s_ip)
+    u_dst_ip.append(d_ip)
+    u_dst_port.append("["+d_port)
+	
+
+for i in range (0, len(src_ip)):
+	add_src_dst_port(src_ip[i], 0, dst_ip[i], dst_port[i])
+	add_src_dst(src_ip[i], dst_ip[i])
+
+for i in range (0, len(src_ip)):
+	add_src_dst(src_ip[i], dst_ip[i])
+
+for i in range (0, len(u_src_ip)):
+    print "alert tcp "+u_src_ip[i]+" any -> "+u_dst_ip[i]+" !"+u_dst_port[i]+"]"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
+
+print "-------- return --------" 
+
+for i in range (0, len(ret_src_ip)):
+    print "alert tcp "+ret_src_ip[i]+" any -> !"+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
+    print "alert tcp !"+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:6000001;)";
+
 
 dot_base.draw(fname+'.png',format='png',prog='dot')
 dot_base.draw(fname+'.dot',format='dot',prog='dot')

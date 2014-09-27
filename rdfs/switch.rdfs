@@ -24,15 +24,9 @@
 <rdf:Property rdf:ID="ip">
   <domain rdf:resource="#Switch"/>
   <label xml:lang="en">ip</label>
-  <comment xml:lang="en">Switch can have own IP.</comment>
+  <comment xml:lang="en">Switch can have own IP</comment>
 </rdf:Property>
 
-
-<rdf:Property rdf:ID="hasProgram">
-  <domain rdf:resource="#Switch"/>
-  <label xml:lang="en">hasProgram</label>
-  <comment xml:lang="en">Switch has programs.</comment>
-</rdf:Property>
 
 </rdf:RDF>
 
