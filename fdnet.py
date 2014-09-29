@@ -154,10 +154,6 @@ u_src_ip=[]
 ret_src_ip=[]
 ret_dst_ip=[]
 
-#input
-in_src_ip=[]
-in_dst_ip=[]
-
 
 #
 def add_dst_src(s_ip, d_ip):
@@ -206,15 +202,6 @@ for i in range (0, len(src_ip)):
 	add_src_dst_port(src_ip[i], 0, dst_ip[i], dst_port[i])
 	add_src_dst(src_ip[i], dst_ip[i])
 
-for i in range (0, len(src_ip)):
-	add_src_dst(src_ip[i], dst_ip[i])
-
-for i in range (0, len(src_ip)):
-	add_src_dst(src_ip[i], dst_ip[i])
-
-for i in range (0, len(src_ip)):
-	add_dst_src(src_ip[i], dst_ip[i])
-
 if not os.path.exists("output"):
     os.makedirs("output")
 
@@ -250,6 +237,15 @@ for i in range (0, len(ret_src_ip)):
     f.write("alert tcp !["+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Incomming connections from illegal IPs \"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
     s.write(str(sid)+"|| Incomming connection from illegal IPs\n");
     sid+=1
+
+print "----- IP plan -------";
+print "IP Address	Hostname	Description";
+
+print "----- Physical+L2 connectivity LAN -------";
+print "Source host	Port	Port type	VLAN	LACP	Patch panel	Port	Switch	Port	Description"
+
+print "---- Physical placement in datacenter ----"
+print "Equipment	Rack	Units	Power, W	Size, units	Weight, kg	Cooling, BTU/hr	PDU ports"
 
 dot_base.draw("output/"+fn_short+'.png',format='png',prog='dot')
 dot_base.draw("output/"+fn_short+'.dot',format='dot',prog='dot')
