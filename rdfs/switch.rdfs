@@ -27,6 +27,24 @@
   <comment xml:lang="en">Switch can have own IP</comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="sn">
+  <domain rdf:resource="#Switch"/>
+  <label xml:lang="en">sn</label>
+  <comment xml:lang="en">SerialNumber</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="mngPort">
+  <domain rdf:resource="#Switch"/>
+  <label xml:lang="en">mngPort</label>
+  <comment xml:lang="en">Switch has management port</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="port">
+  <domain rdf:resource="#Switch"/>
+  <label xml:lang="en">port</label>
+  <comment xml:lang="en">Port - connection unit</comment>
+</rdf:Property>
+
 
 </rdf:RDF>
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf [
+   <!ENTITY rdfs     "http://www.w3.org/2000/01/rdf-schema">
+
+    ]>
+
+<rdf:RDF  
+   xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="&rdfs;#"
+   xmlns     ="&rdfs;#" >
+
+<Class rdf:ID="Port">
+  <domain rdf:resource="#Port"/>
+  <label xml:lang="en">port</label>
+  <comment xml:lang="en">Connection unit </comment>
+</Class>
+
+<rdf:Property rdf:ID="number">
+  <domain rdf:resource="#Port"/>
+  <label xml:lang="en">number</label>
+  <comment xml:lang="en">Number of the port</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="type">
+  <domain rdf:resource="#Port"/>
+  <label xml:lang="en">type</label>
+  <comment xml:lang="en">10/100/1000Mb</comment>
+</rdf:Property>
+
+
+<rdf:Property rdf:ID="connectedWith">
+  <domain rdf:resource="#Port"/>
+  <label xml:lang="en">connectedWith</label>
+  <comment xml:lang="en">This port is connected </comment>
+</rdf:Property>
+
+</rdf:RDF>
+

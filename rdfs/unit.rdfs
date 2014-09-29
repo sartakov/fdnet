@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf [
+   <!ENTITY rdfs     "http://www.w3.org/2000/01/rdf-schema">
+
+    ]>
+
+<rdf:RDF  
+   xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="&rdfs;#"
+   xmlns     ="&rdfs;#" >
+
+<Class rdf:ID="Unit">
+  <domain rdf:resource="#Unit"/>
+  <label xml:lang="en">unit</label>
+  <comment xml:lang="en">Free space </comment>
+</Class>
+
+<rdf:Property rdf:ID="number">
+  <domain rdf:resource="#Unit"/>
+  <label xml:lang="en">number</label>
+  <comment xml:lang="en">Number of the unit</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="occupiedBy">
+  <domain rdf:resource="#Unit"/>
+  <label xml:lang="en">occupiedBy</label>
+  <comment xml:lang="en">unit is occupied by server or switch</comment>
+</rdf:Property>
+
+</rdf:RDF>
+

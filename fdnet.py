@@ -13,7 +13,7 @@ if len(sys.argv) < 2:
     sys.exit()
 else:
     fname=sys.argv[1]
-    fn_short=fname[:4]
+    fn_short=fname[:-4]
 
 print fname
 g = Graph()
@@ -63,7 +63,7 @@ for net in g.triples((None,p,o)):
     for name in g.triples((s,p,None)):
 	net_name=name[2]
     print "----"+net_name+"------";
-    dot_subnet = dot_base.subgraph(name="cluster"+net_name, style='dotted', color='black', label=net_name);
+    dot_subnet = dot_base.subgraph(name="cluster"+net_name, style='dotted', color='black', label=net_name, overlap='scalex');
 #  get list of servers
     s = URIRef(net[0])
     p = URIRef(prefix+"/hasServer")
