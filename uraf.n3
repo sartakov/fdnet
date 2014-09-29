@@ -9,6 +9,12 @@
 <#sps_css_10060>	<name>			"client 10060" .
 <#sps_css_10060>	<communicateWith>	<#css_srv_10060> .
 
+#@forSome <#sps_sps_3306> .
+#<#sps_sps_3306>	a <Program> .
+#<#sps_sps_3306>	<name>			"mysql replica" .
+#<#sps_sps_3306>	<communicateWith>	<#sps_mysql_3306> .
+
+
 #apm
 
 @forSome <#apms_sps_80> .
@@ -76,6 +82,7 @@
 <#sps_mysql_3306>	a <Program> .
 <#sps_mysql_3306>	<name>		"mysql" .
 <#sps_mysql_3306>	<listenPort>	"3306" .
+<#sps_mysql_3306>	<communicateWith>	<#sps_mysql_3306> .
 
 @forSome <#sps_crypto_80> .
 <#sps_crypto_80>	a <Program> .
@@ -140,6 +147,7 @@
 <#sps>		<hasProgram>	<#sps_sshd_22> .
 <#sps>		<hasProgram>	<#sps_vpn_1414> .
 <#sps>		<hasProgram>	<#sps_css_10060> . #client
+<#sps>		<hasProgram>	<#sps_sps_3306> . #client
 
 @forSome <#css> .
 <#css>		a <Server> .

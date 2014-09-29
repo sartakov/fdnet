@@ -224,23 +224,23 @@ f = open("output/"+fn_short+'.rules', 'w+')
 s = open("output/sid-msg.map", 'w+')
 
 print "-------- output --------" 
-f.write("---output---\n");
+f.write("#---output---\n");
 for i in range (0, len(u_src_ip)):
 #    print "alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
     f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
     s.write(str(sid)+"|| Wrong port connection\n");
     sid+=1
 
-print "-------- input --------" 
-f.write("---input---\n");
-for i in range (0, len(in_dst_ip)):
+#print "-------- input --------" 
+#f.write("#---input---\n");
+#for i in range (0, len(in_dst_ip)):
 #    print "alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
-    f.write("alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Incomming connection from illegal IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
-    s.write(str(sid)+"|| Incomming connection from illegal IP\n");
-    sid+=1
+##    f.write("alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Incomming connection from illegal IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+##    s.write(str(sid)+"|| Incomming connection from illegal IP\n");
+#    sid+=1
 
 print "-------- overall --------" 
-f.write("---overall---\n");
+f.write("#---overall---\n");
 for i in range (0, len(ret_src_ip)):
 #    print "alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
     f.write("alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Outgoing connections to illegal IPs\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
