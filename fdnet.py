@@ -50,7 +50,7 @@ print o
 for triple in g.triples((None,p,o)):
     nets.append(triple)
 
-dot_base = ppp.AGraph(directed=True, name='Network', node_attr={'shape': 'record'})
+dot_base = ppp.AGraph(directed=False, name='Network', node_attr={'shape': 'record'}, overlap='false',strict=False,rankdir='LR')
 
 
 p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
@@ -63,7 +63,7 @@ for net in g.triples((None,p,o)):
     for name in g.triples((s,p,None)):
 	net_name=name[2]
     print "----"+net_name+"------";
-    dot_subnet = dot_base.subgraph(name="cluster"+net_name, style='dotted', color='black', label=net_name, overlap='scalex');
+    dot_subnet = dot_base.subgraph(name="cluster"+net_name, style='dotted', color='black', label=net_name, overlap='false');
 #  get list of servers
     s = URIRef(net[0])
     p = URIRef(prefix+"/hasServer")
@@ -80,7 +80,7 @@ for net in g.triples((None,p,o)):
 	for sip in g.triples((s,p,None)):
 	    server_ip=sip[2]
 	print "\t"+server_name+":"+server_ip
-	dot_server = dot_subnet.subgraph(name="cluster"+server_name, style='dotted', color='blue', label=server_name+":"+server_ip);
+	dot_server = dot_subnet.subgraph(name="cluster"+server_name, style='dotted', color='blue', label=server_name+":"+server_ip, overlap='false');
 #	dot.add_node(server_name);
 #get programs
 	s = URIRef(server[2])
@@ -98,7 +98,7 @@ for net in g.triples((None,p,o)):
 	    for listen in g.triples((s,p,None)):
 		program_port=listen[2]
 	    print "\t\t"+program_name+":"+program_port;
-	    dot_server.add_node(program_name, shape="record", name=program_name, label=program_name+":"+program_port);
+	    dot_server.add_node(program_name, shape="record", name=program_name, label=program_name+":"+program_port, overlap='false');
 #	get connection
 	    s = URIRef(program[2])
 	    p = URIRef(prefix+"/communicateWith")
@@ -224,6 +224,7 @@ f = open("output/"+fn_short+'.rules', 'w+')
 s = open("output/sid-msg.map", 'w+')
 
 print "-------- output --------" 
+f.write("---output---\n");
 for i in range (0, len(u_src_ip)):
 #    print "alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
     f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
@@ -231,6 +232,7 @@ for i in range (0, len(u_src_ip)):
     sid+=1
 
 print "-------- input --------" 
+f.write("---input---\n");
 for i in range (0, len(in_dst_ip)):
 #    print "alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
     f.write("alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Incomming connection from illegal IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
@@ -238,6 +240,7 @@ for i in range (0, len(in_dst_ip)):
     sid+=1
 
 print "-------- overall --------" 
+f.write("---overall---\n");
 for i in range (0, len(ret_src_ip)):
 #    print "alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
     f.write("alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Outgoing connections to illegal IPs\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");

@@ -1,0 +1,504 @@
+#
+# clients
+#
+
+#sp1
+
+@forSome <#sp1_cs1_10060> .
+<#sp1_cs1_10060>	a <Program> .
+<#sp1_cs1_10060>	<name>			"client 10060" .
+<#sp1_cs1_10060>	<communicateWith>	<#cs1_srv_10060> .
+
+#apm
+
+@forSome <#apm1_sp1_80> .
+<#apm1_sp1_80>	a <Program> .
+<#apm1_sp1_80>	<name>			"apm1 to sp1 crypto 80" .
+<#apm1_sp1_80>	<communicateWith>	<#sp1_crypto_80> .
+
+@forSome <#apm1_sp1_8000> .
+<#apm1_sp1_8000>	a <Program> .
+<#apm1_sp1_8000>	<name>			"apm1 to sp1 crypto 8000" .
+<#apm1_sp1_8000>	<communicateWith>	<#sp1_crypto_8000> .
+
+@forSome <#apm1_vpn1_666> .
+<#apm1_vpn1_666>	a <Program> .
+<#apm1_vpn1_666>	<name>			"apm1 tp vpn client" .
+<#apm1_vpn1_666>	<communicateWith>	<#vpn1_vpn_666> .
+
+@forSome <#apm1_cs1_666> .
+<#apm1_cs1_666>	a <Program> .
+<#apm1_cs1_666>	<name>			"apm1 to cs vpn client" .
+<#apm1_cs1_666>	<communicateWith>	<#cs1_vpn_666> .
+
+@forSome <#apm2_sp1_80> .
+<#apm2_sp1_80>	a <Program> .
+<#apm2_sp1_80>	<name>			"apm2 to sp1 crypto 80" .
+<#apm2_sp1_80>	<communicateWith>	<#sp1_crypto_80> .
+
+@forSome <#apm2_sp1_8000> .
+<#apm2_sp1_8000>	a <Program> .
+<#apm2_sp1_8000>	<name>			"apm2 to sp1 crypto 8000" .
+<#apm2_sp1_8000>	<communicateWith>	<#sp1_crypto_8000> .
+
+@forSome <#apm2_vpn1_666> .
+<#apm2_vpn1_666>	a <Program> .
+<#apm2_vpn1_666>	<name>			"apm2 vpn client" .
+<#apm2_vpn1_666>	<communicateWith>	<#vpn1_vpn_666> .
+
+@forSome <#apm2_cs1_666> .
+<#apm2_cs1_666>	a <Program> .
+<#apm2_cs1_666>	<name>			"apm2 to cs vpn client" .
+<#apm2_cs1_666>	<communicateWith>	<#cs1_vpn_666> .
+
+@forSome <#apm3_sp1_80> .
+<#apm3_sp1_80>	a <Program> .
+<#apm3_sp1_80>	<name>			"apm3 to sp1 crypto 80" .
+<#apm3_sp1_80>	<communicateWith>	<#sp1_crypto_80> .
+
+@forSome <#apm3_sp1_8000> .
+<#apm3_sp1_8000>	a <Program> .
+<#apm3_sp1_8000>	<name>			"apm3 to sp1 crypto 8000" .
+<#apm3_sp1_8000>	<communicateWith>	<#sp1_crypto_8000> .
+
+@forSome <#apm3_vpn1_666> .
+<#apm3_vpn1_666>	a <Program> .
+<#apm3_vpn1_666>	<name>			"apm3 to vpn client" .
+<#apm3_vpn1_666>	<communicateWith>	<#vpn1_vpn_666> .
+
+@forSome <#apm3_cs1_666> .
+<#apm3_cs1_666>	a <Program> .
+<#apm3_cs1_666>	<name>			"apm3 to cs vpn client" .
+<#apm3_cs1_666>	<communicateWith>	<#cs1_vpn_666> .
+
+
+#X
+
+@forSome <#x_cs1_666> .
+<#x_cs1_666>	a <Program> .
+<#x_cs1_666>	<name>			"x vpn client" .
+<#x_cs1_666>	<communicateWith>	<#cs1_vpn_666> .
+
+@forSome <#x_sp1_22> .
+<#x_sp1_22>	a <Program> .
+<#x_sp1_22>	<name>			"ssh client" .
+<#x_sp1_22>	<communicateWith>	<#sp1_sshd_22> .
+
+@forSome <#x_sp1_199> .
+<#x_sp1_199>	a <Program> .
+<#x_sp1_199>	<name>			"199 client" .
+<#x_sp1_199>	<communicateWith>	<#sp1_199_199> .
+
+@forSome <#x_sp1_514> .
+<#x_sp1_514>	a <Program> .
+<#x_sp1_514>	<name>			"514 client" .
+<#x_sp1_514>	<communicateWith>	<#sp1_514_514> .
+
+#S
+
+@forSome <#s1_sp1_1414> .
+<#s1_sp1_1414>	a <Program> .
+<#s1_sp1_1414>	<name>			"s1 vpn" .
+<#s1_sp1_1414>	<communicateWith>	<#sp1_vpn_1414> .
+
+@forSome <#s2_sp1_1414> .
+<#s2_sp1_1414>	a <Program> .
+<#s2_sp1_1414>	<name>			"s2 client" .
+<#s2_sp1_1414>	<communicateWith>	<#sp1_vpn_1414> .
+
+@forSome <#s3_sp1_1414> .
+<#s3_sp1_1414>	a <Program> .
+<#s3_sp1_1414>	<name>			"s3 client" .
+<#s3_sp1_1414>	<communicateWith>	<#sp1_vpn_1414> .
+
+
+#
+# program servers
+#
+
+### sp1
+
+@forSome <#sp1_mysql_3306> .
+<#sp1_mysql_3306>	a <Program> .
+<#sp1_mysql_3306>	<name>		"mysql" .
+<#sp1_mysql_3306>	<listenPort>	"3306" .
+
+@forSome <#sp1_crypto_80> .
+<#sp1_crypto_80>	a <Program> .
+<#sp1_crypto_80>	<name>		"crypto_server1" .
+<#sp1_crypto_80>	<listenPort>	"80" .
+
+@forSome <#sp1_crypto_8000> .
+<#sp1_crypto_8000>	a <Program> .
+<#sp1_crypto_8000>	<name>		"crypto_server2" .
+<#sp1_crypto_8000>	<listenPort>	"8000" .
+
+@forSome <#sp1_sshd_22> .
+<#sp1_sshd_22>	a <Program> .
+<#sp1_sshd_22>	<name>		"sshd" .
+<#sp1_sshd_22>	<listenPort>	"22" .
+
+@forSome <#sp1_199_199> .
+<#sp1_199_199>	a <Program> .
+<#sp1_199_199>	<name>		"199 port" .
+<#sp1_199_199>	<listenPort>	"199" .
+
+@forSome <#sp1_514_514> .
+<#sp1_514_514>	a <Program> .
+<#sp1_514_514>	<name>		"514 port" .
+<#sp1_514_514>	<listenPort>	"514" .
+
+@forSome <#sp1_vpn_1414> .
+<#sp1_vpn_1414>	a <Program> .
+<#sp1_vpn_1414>	<name>		"1414 is open" .
+<#sp1_vpn_1414>	<listenPort>	"1414" .
+
+### cs1
+
+@forSome <#cs1_vpn_666> .
+<#cs1_vpn_666>	a <Program> .
+<#cs1_vpn_666>	<name>		"CFG_CS" .
+<#cs1_vpn_666>	<listenPort>	"666" .
+
+@forSome <#cs1_srv_10060> .
+<#cs1_srv_10060>	a <Program> .
+<#cs1_srv_10060>	<name>		"10060 port" .
+<#cs1_srv_10060>	<listenPort>	"10060" .
+
+#### vpn1
+
+@forSome <#vpn1_vpn_666> .
+<#vpn1_vpn_666>	a <Program> .
+<#vpn1_vpn_666>	<name>		"VPN" .
+<#vpn1_vpn_666>	<listenPort>	"666" .
+
+#servers
+
+@forSome <#sp1> .
+<#sp1>		a <Server> .
+<#sp1>		<name>		"SP1" .
+<#sp1>		<ip>		"1.1.1.5" .
+<#sp1>		<hasProgram>	<#sp1_mysql_3306> .
+<#sp1>		<hasProgram>	<#sp1_crypto_80> .
+<#sp1>		<hasProgram>	<#sp1_crypto_8000> .
+<#sp1>		<hasProgram>	<#sp1_514_514> .
+<#sp1>		<hasProgram>	<#sp1_199_199> .
+<#sp1>		<hasProgram>	<#sp1_sshd_22> .
+<#sp1>		<hasProgram>	<#sp1_vpn_1414> .
+<#sp1>		<hasProgram>	<#sp1_cs1_10060> . #client
+
+@forSome <#cs1> .
+<#cs1>		a <Server> .
+<#cs1>		<name>		"CS1" .
+<#cs1>		<ip>		"1.1.1.3" .
+<#cs1>		<hasProgram>	<#cs1_vpn_666> .
+<#cs1>		<hasProgram>	<#cs1_srv_10060> .
+
+@forSome <#vpn1> .
+<#vpn1>		a <Server> .
+<#vpn1>		<name>		"VPN1" .
+<#vpn1>		<ip>		"1.1.1.1" .
+<#vpn1>		<hasProgram>	<#vpn1_vpn_666> .
+
+@forSome <#apm1> .
+<#apm1>		a <Server> .
+<#apm1>		<name>		"APM1" .
+<#apm1>		<ip>		"1.1.1.10" .
+<#apm1>		<hasProgram>	<#apm1_sp1_80> .
+<#apm1>		<hasProgram>	<#apm1_sp1_8000> .
+<#apm1>		<hasProgram>	<#apm1_vpn1_666> .
+<#apm1>		<hasProgram>	<#apm1_cs1_666> .
+
+@forSome <#apm2> .
+<#apm2>		a <Server> .
+<#apm2>		<name>		"APM2" .
+<#apm2>		<ip>		"1.1.1.11" .
+<#apm2>		<hasProgram>	<#apm2_sp1_80> .
+<#apm2>		<hasProgram>	<#apm2_sp1_8000> .
+<#apm2>		<hasProgram>	<#apm2_vpn1_666> .
+<#apm2>		<hasProgram>	<#apm2_cs1_666> .
+
+@forSome <#apm3> .
+<#apm3>		a <Server> .
+<#apm3>		<name>		"APM3" .
+<#apm3>		<ip>		"1.1.1.12" .
+<#apm3>		<hasProgram>	<#apm3_sp1_80> .
+<#apm3>		<hasProgram>	<#apm3_sp1_8000> .
+<#apm3>		<hasProgram>	<#apm3_vpn1_666> .
+<#apm3>		<hasProgram>	<#apm3_cs1_666> .
+
+
+@forSome <#X> .
+<#X>		a <Server> .
+<#X>		<name>		"X" .
+<#X>		<ip>		"3.1.1.1" .
+<#X>		<hasProgram>	<#x_cs1_666> .
+<#X>		<hasProgram>	<#x_sp1_22> .
+<#X>		<hasProgram>	<#x_sp1_199> .
+<#X>		<hasProgram>	<#x_sp1_514> .
+
+
+@forSome <#S1> .
+<#S1>		a <Server> .
+<#S1>		<name>		"S1" .
+<#S1>		<ip>		"2.1.1.1" .
+<#S1>		<hasProgram>	<#s1_sp1_1414> .
+
+@forSome <#S2> .
+<#S2>		a <Server> .
+<#S2>		<name>		"S2" .
+<#S2>		<ip>		"2.3.1.1" .
+<#S2>		<hasProgram>	<#s2_sp1_1414> .
+
+@forSome <#S2> .
+<#S3>		a <Server> .
+<#S3>		<name>		"S3" .
+<#S3>		<ip>		"2.4.1.1" .
+<#S3>		<hasProgram>	<#s3_sp1_1414> .
+
+
+
+#
+#nets
+#
+
+@forSome <#net1> .
+<#net1>		a <Subnet> .
+<#net1>		<name>		"NET1" .
+<#net1>		<hasServer>	<#sp1> .
+<#net1>		<hasServer>	<#vpn1> .
+<#net1>		<hasServer>	<#cs1> .
+<#net1>		<hasServer>	<#apm1> .
+<#net1>		<hasServer>	<#apm2> .
+<#net1>		<hasServer>	<#apm3> .
+
+@forSome <#net2> .
+<#net2>		a <Subnet> .
+<#net2>		<name>		"NET2" .
+<#net2>		<hasServer>	<#S1> .
+<#net2>		<hasServer>	<#S2> .
+<#net2>		<hasServer>	<#S3> .
+
+@forSome <#net3> .
+<#net3>		a <Subnet> .
+<#net3>		<name>		"NET3" .
+<#net3>		<hasServer>	<#X> .
+
+#
+# ports
+#
+
+@forSome <#sw1_p1> .
+<#sw1_p1>		a <Unit> .
+<#sw1_p1>		<number>		"1" .
+<#sw1_p1>		<type>			"1GB-UTP" .
+<#sw1_p1>		<connectedWith>		<#X> .
+
+@forSome <#sw1_p2> .
+<#sw1_p2>		a <Unit> .
+<#sw1_p2>		<number>		"2" .
+<#sw1_p2>		<type>			"1GB-UTP" .
+<#sw1_p2>		<connectedWith>		<#S3> .
+
+@forSome <#sw1_p3> .
+<#sw1_p3>		a <Unit> .
+<#sw1_p3>		<number>		"3" .
+<#sw1_p3>		<type>			"1GB-UTP" .
+<#sw1_p3>		<connectedWith>		<#S2> .
+
+@forSome <#sw1_p4> .
+<#sw1_p4>		a <Unit> .
+<#sw1_p4>		<number>		"4" .
+<#sw1_p4>		<type>			"1GB-UTP" .
+<#sw1_p4>		<connectedWith>		<#S1> .
+
+@forSome <#sw1_p5> .
+<#sw1_p5>		a <Unit> .
+<#sw1_p5>		<number>		"5" .
+<#sw1_p5>		<type>			"1GB-UTP" .
+<#sw1_p5>		<connectedWith>		<#VPN1> .
+
+#####
+
+@forSome <#sw2_p1> .
+<#sw2_p1>		a <Unit> .
+<#sw2_p1>		<number>		"1" .
+<#sw2_p1>		<type>			"1GB-UTP" .
+<#sw2_p1>		<connectedWith>		<#VPN1> .
+
+@forSome <#sw2_p3> .
+<#sw2_p3>		a <Unit> .
+<#sw2_p3>		<number>		"3" .
+<#sw2_p3>		<type>			"1GB-UTP" .
+<#sw2_p3>		<connectedWith>		<#CS1> .
+
+@forSome <#sw2_p5> .
+<#sw2_p5>		a <Unit> .
+<#sw2_p5>		<number>		"5" .
+<#sw2_p5>		<type>			"1GB-UTP" .
+<#sw2_p5>		<connectedWith>		<#SP1> .
+
+@forSome <#sw2_p7> .
+<#sw2_p7>		a <Unit> .
+<#sw2_p7>		<number>		"7" .
+<#sw2_p7>		<type>			"1GB-UTP" .
+<#sw2_p7>		<connectedWith>		<#APM1> .
+
+@forSome <#sw2_p8> .
+<#sw2_p8>		a <Unit> .
+<#sw2_p8>		<number>		"8" .
+<#sw2_p8>		<type>			"1GB-UTP" .
+<#sw2_p8>		<connectedWith>		<#APM2> .
+
+@forSome <#sw2_p9> .
+<#sw2_p9>		a <Unit> .
+<#sw2_p9>		<number>		"9" .
+<#sw2_p9>		<type>			"1GB-UTP" .
+<#sw2_p9>		<connectedWith>		<#APM3> .
+
+@forSome <#sw2_p10> .
+<#sw2_p10>		a <Unit> .
+<#sw2_p10>		<number>		"10" .
+<#sw2_p10>		<type>			"1GB-UTP" .
+<#sw2_p10>		<connectedWith>		<#TOR> .
+
+
+#
+# Switches
+#
+
+@forSome <#Switch2> .
+<#Switch2>		a <Unit> .
+<#Switch2>		<name>			"Switch2" .
+<#Switch2>		<sn>			"111-456" .
+<#Switch2>		<mngPort>		"0" .
+<#Switch2>		<port>			<#sw2_p1> .
+<#Switch2>		<port>			<#sw2_p3> .
+<#Switch2>		<port>			<#sw2_p5> .
+<#Switch2>		<port>			<#sw2_p7> .
+<#Switch2>		<port>			<#sw2_p8> .
+<#Switch2>		<port>			<#sw2_p9> .
+<#Switch2>		<port>			<#sw2_p10> .
+
+
+@forSome <#Switch1> .
+<#Switch1>		a <Unit> .
+<#Switch1>		<name>			"Switch1" .
+<#Switch1>		<sn>			"123-456" .
+<#Switch1>		<mngPort>		"0" .
+<#Switch1>		<port>			<#sw1_p1> .
+<#Switch1>		<port>			<#sw1_p2> .
+<#Switch1>		<port>			<#sw1_p3> .
+<#Switch1>		<port>			<#sw1_p4> .
+<#Switch1>		<port>			<#sw1_p5> .
+
+#
+# units 
+#
+
+@forSome <#r1_u0> .
+<#r1_u0>		a <Unit> .
+<#r1_u0>		<number>		"0" .
+<#r1_u0>		<occupiedBy>		<#X> .
+
+@forSome <#r1_u1> .
+<#r1_u1>		a <Unit> .
+<#r1_u1>		<number>		"1" .
+<#r1_u1>		<occupiedBy>		<#S3> .
+
+@forSome <#r1_u2> .
+<#r1_u2>		a <Unit> .
+<#r1_u2>		<number>		"2" .
+<#r1_u2>		<occupiedBy>		<#S2> .
+
+@forSome <#r1_u3> .
+<#r1_u3>		a <Unit> .
+<#r1_u3>		<number>		"3" .
+<#r1_u3>		<occupiedBy>		<#S1> .
+
+@forSome <#r1_u4> .
+<#r1_u4>		a <Unit> .
+<#r1_u4>		<number>		"4" .
+<#r1_u4>		<occupiedBy>		<#Switch1> .
+
+@forSome <#r1_u5> .
+<#r1_u5>		a <Unit> .
+<#r1_u5>		<number>		"5" .
+<#r1_u5>		<occupiedBy>		<#VPN1> .
+
+@forSome <#r1_u6> .
+<#r1_u6>		a <Unit> .
+<#r1_u6>		<number>		"6" .
+<#r1_u6>		<occupiedBy>		"reserved (VPN2)" .
+
+@forSome <#r1_u7> .
+<#r1_u7>		a <Unit> .
+<#r1_u7>		<number>		"7" .
+<#r1_u7>		<occupiedBy>		<#CS1> .
+
+@forSome <#r1_u8> .
+<#r1_u8>		a <Unit> .
+<#r1_u8>		<number>		"8" .
+<#r1_u8>		<occupiedBy>		"reserved (CS2)" .
+
+@forSome <#r1_u9> .
+<#r1_u9>		a <Unit> .
+<#r1_u9>		<number>		"9" .
+<#r1_u9>		<occupiedBy>		<#SP1> .
+
+@forSome <#r1_u10> .
+<#r1_u10>		a <Unit> .
+<#r1_u10>		<number>		"10" .
+<#r1_u10>		<occupiedBy>		"reserved (SP2)" .
+
+@forSome <#r1_u11> .
+<#r1_u11>		a <Unit> .
+<#r1_u11>		<number>		"11" .
+<#r1_u11>		<occupiedBy>		<#Switch2> .
+
+@forSome <#r1_u12> .
+<#r1_u12>		a <Unit> .
+<#r1_u12>		<number>		"12" .
+<#r1_u12>		<occupiedBy>		<#APM1> .
+
+@forSome <#r1_u13> .
+<#r1_u13>		a <Unit> .
+<#r1_u13>		<number>		"13" .
+<#r1_u13>		<occupiedBy>		<#APM2> .
+
+@forSome <#r1_u14> .
+<#r1_u14>		a <Unit> .
+<#r1_u14>		<number>		"14" .
+<#r1_u14>		<occupiedBy>		<#APM3> .
+
+@forSome <#r1_u15> .
+<#r1_u15>		a <Unit> .
+<#r1_u15>		<number>		"15" .
+<#r1_u15>		<occupiedBy>		<#TOR> .
+
+
+#
+# Rack
+#
+
+@forSome <#rack1> .
+<#rack1>		a <Rack> .
+<#rack1>		<name>			"rack1" .
+<#rack1>		<sn>			"555-55-45" .
+<#rack1>		<maxUnits>		"25" .
+<#rack1>		<hasUnit>		<#r1_u0> .
+<#rack1>		<hasUnit>		<#r1_u1> .
+<#rack1>		<hasUnit>		<#r1_u2> .
+<#rack1>		<hasUnit>		<#r1_u3> .
+<#rack1>		<hasUnit>		<#r1_u4> .
+<#rack1>		<hasUnit>		<#r1_u5> .
+<#rack1>		<hasUnit>		<#r1_u6> .
+<#rack1>		<hasUnit>		<#r1_u7> .
+<#rack1>		<hasUnit>		<#r1_u8> .
+<#rack1>		<hasUnit>		<#r1_u9> .
+<#rack1>		<hasUnit>		<#r1_u10> .
+<#rack1>		<hasUnit>		<#r1_u11> .
+<#rack1>		<hasUnit>		<#r1_u12> .
+<#rack1>		<hasUnit>		<#r1_u13> .
+<#rack1>		<hasUnit>		<#r1_u14> .
+<#rack1>		<hasUnit>		<#r1_u15> .
