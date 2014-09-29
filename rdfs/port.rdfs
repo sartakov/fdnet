@@ -18,15 +18,20 @@
 <rdf:Property rdf:ID="number">
   <domain rdf:resource="#Port"/>
   <label xml:lang="en">number</label>
-  <comment xml:lang="en">Number of the port</comment>
+  <comment xml:lang="en">name or number</comment>
 </rdf:Property>
 
 <rdf:Property rdf:ID="type">
   <domain rdf:resource="#Port"/>
   <label xml:lang="en">type</label>
-  <comment xml:lang="en">10/100/1000Mb</comment>
+  <comment xml:lang="en">UTP or something else</comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="speed">
+  <domain rdf:resource="#Port"/>
+  <label xml:lang="en">speed</label>
+  <comment xml:lang="en">10/100/1000Mb</comment>
+</rdf:Property>
 
 <rdf:Property rdf:ID="connectedWith">
   <domain rdf:resource="#Port"/>

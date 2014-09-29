@@ -7,6 +7,7 @@ from rdflib import RDF
 from graphviz import Digraph
 import pygraphviz as ppp
 import os
+import xlsxwriter
 
 if len(sys.argv) < 2:
     print "Please provide network structure in RDF format. Example: fdnet.py text.rdf"
@@ -41,14 +42,6 @@ dst_prog=[]
 
 #
 #
-#
-p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-o = URIRef(prefix+"/Subnet")
-
-print o
-
-for triple in g.triples((None,p,o)):
-    nets.append(triple)
 
 dot_base = ppp.AGraph(directed=False, name='Network', node_attr={'shape': 'record'}, overlap='false',strict=False,rankdir='LR')
 
@@ -238,14 +231,179 @@ for i in range (0, len(ret_src_ip)):
     s.write(str(sid)+"|| Incomming connection from illegal IPs\n");
     sid+=1
 
-print "----- IP plan -------";
-print "IP Address	Hostname	Description";
+workbook = xlsxwriter.Workbook("output/"+fn_short+'.xlsx')
 
-print "----- Physical+L2 connectivity LAN -------";
-print "Source host	Port	Port type	VLAN	LACP	Patch panel	Port	Switch	Port	Description"
+print "----- IP plan -------";
+
+sheet_ip = workbook.add_worksheet("IP plan")
+
+ip_plan=[]
+ip_plan.append(['IP Address','Hostname', 'Description']);
+
+p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+o = URIRef(prefix+"/Server")
+for server in g.triples((None,p,o)):
+    t_name=''
+    t_ip=''
+    t_desc=''
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/name")
+    for name in g.triples((s,p,None)):
+	t_name=name[2]
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/ip")
+    for ip in g.triples((s,p,None)):
+    #only one IP per server now
+	if '[' in ip[2]:
+	    t_ip=ip[2][+1:-1].split(',')[0]
+	else:
+	    t_ip=ip[2]	
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/description")
+    for desc in g.triples((s,p,None)):
+	t_desc=desc[2]
+    ip_plan.append([t_name,t_ip,t_desc])
+
+row = 0
+col = 0
+
+for line in ip_plan:
+    sheet_ip.write(row, col, line[0])
+    sheet_ip.write(row, col+1, line[1])
+    sheet_ip.write(row, col+2, line[2])
+    row += 1
+
+print "---- Physical+L2 connectivity LAN----"
+
+sheet_connect = workbook.add_worksheet("Physical+L2 connectivity LAN")
+
+connect=[]
+connect.append(['Source host',	'Port',	'Port type',	'VLAN',	'Switch', 'Port']);
+
+p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+o = URIRef(prefix+"/Server")
+for server in g.triples((None,p,o)):
+    tmp=[]
+#name
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/name")
+    for name in g.triples((s,p,None)):
+	tmp.append(name[2])
+    tmp.append("eth0");
+    tmp.append("1GB-UTP");
+    tmp.append("0");
+#port id
+    p = URIRef(prefix+"/connectedWith")
+    o = URIRef(server[0])
+    for port in g.triples((None,p,o)):
+	p = URIRef(prefix+"/port")
+	o = URIRef(port[0])
+	#switch
+        for switch in g.triples((None,p,o)):
+        #switch name
+	    s = URIRef(switch[0])
+	    p = URIRef(prefix+"/name")
+	    for s_name in g.triples((s,p,None)):
+		tmp.append(s_name[2])
+    #port number
+	s = URIRef(port[0])
+	p = URIRef(prefix+"/number")
+	for number in g.triples((s,p,None)):
+	    tmp.append(number[2])	
+    connect.append(tmp)
+
+row = 0
+col = 0
+
+for line in connect:
+    sheet_connect.write(row, col,   line[0])
+    sheet_connect.write(row, col+1, line[1])
+    sheet_connect.write(row, col+2, line[2])
+    sheet_connect.write(row, col+3, line[3])
+    sheet_connect.write(row, col+4, line[4])
+    sheet_connect.write(row, col+5, line[5])
+    row += 1
+
 
 print "---- Physical placement in datacenter ----"
-print "Equipment	Rack	Units	Power, W	Size, units	Weight, kg	Cooling, BTU/hr	PDU ports"
+
+sheet_dc = workbook.add_worksheet("Physical placement")
+
+phys=[]
+phys.append(['Equipment','Rack','Unit','Power, W','Size, units','Weight, kg','Cooling, BTU/hr']);
+
+p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+o = URIRef(prefix+"/Server")
+for server in g.triples((None,p,o)):
+    tmp=[]
+#name
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/name")
+    for name in g.triples((s,p,None)):
+	tmp.append(name[2])
+#unit
+    p = URIRef(prefix+"/occupiedBy")
+    o = URIRef(server[0])
+    for unit in g.triples((None,p,o)):
+    #rack id
+	p = URIRef(prefix+"/hasUnit")
+	o = URIRef(unit[0])
+        for racks in g.triples((None,p,o)):
+        #rack name
+	    s = URIRef(racks[0])
+	    p = URIRef(prefix+"/name")
+	    for r_name in g.triples((s,p,None)):
+		tmp.append(r_name[2])
+    #unit name
+	s = URIRef(unit[0])
+	p = URIRef(prefix+"/number")
+	for u_number in g.triples((s,p,None)):
+	    tmp.append(u_number[2])
+
+#model id
+    s = URIRef(server[0])
+    p = URIRef(prefix+"/model")
+    for models in g.triples((s,p,None)):
+    #model features
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/power")
+	for power in g.triples((s,p,None)):
+	    tmp.append(power[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/size")
+	for size in g.triples((s,p,None)):
+	    tmp.append(size[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/weight")
+	for weight in g.triples((s,p,None)):
+	    tmp.append(weight[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/cooling")
+	for cooling in g.triples((s,p,None)):
+	    tmp.append(cooling[2])
+
+    phys.append(tmp)
+
+
+row = 0
+col = 0
+
+for line in phys:
+    sheet_dc.write(row, col, line[0])
+    sheet_dc.write(row, col+1, line[1])
+    sheet_dc.write(row, col+2, line[2])
+    sheet_dc.write(row, col+3, line[3])
+    sheet_dc.write(row, col+4, line[4])
+    sheet_dc.write(row, col+5, line[5])
+    sheet_dc.write(row, col+6, line[6])
+    row += 1
+
+
+
+workbook.close()
 
 dot_base.draw("output/"+fn_short+'.png',format='png',prog='dot')
 dot_base.draw("output/"+fn_short+'.dot',format='dot',prog='dot')

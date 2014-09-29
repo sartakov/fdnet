@@ -18,7 +18,7 @@
 <rdf:Property rdf:ID="name">
   <domain rdf:resource="#Server"/>
   <label xml:lang="en">name</label>
-  <comment xml:lang="en">The name of the server</comment>
+  <comment xml:lang="en">The name (hostname) of the server</comment>
 </rdf:Property>
 
 <rdf:Property rdf:ID="sn">
@@ -39,5 +39,17 @@
   <comment xml:lang="en">Server has programs.</comment>
 </rdf:Property>
 
-</rdf:RDF>
+<rdf:Property rdf:ID="model">
+  <domain rdf:resource="#Server"/>
+  <label xml:lang="en">model</label>
+  <comment xml:lang="en">Description of the model (size, weight, etc).</comment>
+</rdf:Property>
 
+<rdf:Property rdf:ID="description">
+  <domain rdf:resource="#Server"/>
+  <label xml:lang="en">description</label>
+  <comment xml:lang="en">Description of the model (size, weight, etc).</comment>
+</rdf:Property>
+
+
+</rdf:RDF>

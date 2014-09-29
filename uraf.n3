@@ -9,12 +9,6 @@
 <#sps_css_10060>	<name>			"client 10060" .
 <#sps_css_10060>	<communicateWith>	<#css_srv_10060> .
 
-#@forSome <#sps_sps_3306> .
-#<#sps_sps_3306>	a <Program> .
-#<#sps_sps_3306>	<name>			"mysql replica" .
-#<#sps_sps_3306>	<communicateWith>	<#sps_mysql_3306> .
-
-
 #apm
 
 @forSome <#apms_sps_80> .
@@ -133,59 +127,124 @@
 <#vpns_vpn_666>	<name>		"VPN" .
 <#vpns_vpn_666>	<listenPort>	"666" .
 
+#models
+
+@forSome <#simple1U> .
+<#simple1U>		a <Model> .
+<#simple1U>		<name>		"AS-1042G-TF" .
+<#simple1U>		<size>		"1U" .
+<#simple1U>		<power>		"1400" .
+<#simple1U>		<cooling>	"nan" .
+<#simple1U>		<weight>	"19.5" .
+
 #servers
 
-@forSome <#sps> .
-<#sps>		a <Server> .
-<#sps>		<name>		"SPS" .
-<#sps>		<ip>		"[1.1.1.5,1.1.1.6]" .
-<#sps>		<hasProgram>	<#sps_mysql_3306> .
-<#sps>		<hasProgram>	<#sps_crypto_80> .
-<#sps>		<hasProgram>	<#sps_crypto_8000> .
-<#sps>		<hasProgram>	<#sps_514_514> .
-<#sps>		<hasProgram>	<#sps_199_199> .
-<#sps>		<hasProgram>	<#sps_sshd_22> .
-<#sps>		<hasProgram>	<#sps_vpn_1414> .
-<#sps>		<hasProgram>	<#sps_css_10060> . #client
-<#sps>		<hasProgram>	<#sps_sps_3306> . #client
+@forSome <#SPS> .
+<#SPS>		a <Server> .
+<#SPS>		<name>		"SPS" .
+<#SPS>		<ip>		"[1.1.1.5,1.1.1.6]" .
+<#SPS>		<model>		<#simple1U> .
+<#SPS>		<hasProgram>	<#sps_mysql_3306> .
+<#SPS>		<hasProgram>	<#sps_crypto_80> .
+<#SPS>		<hasProgram>	<#sps_crypto_8000> .
+<#SPS>		<hasProgram>	<#sps_514_514> .
+<#SPS>		<hasProgram>	<#sps_199_199> .
+<#SPS>		<hasProgram>	<#sps_sshd_22> .
+<#SPS>		<hasProgram>	<#sps_vpn_1414> .
+<#SPS>		<hasProgram>	<#sps_css_10060> . #client
 
-@forSome <#css> .
-<#css>		a <Server> .
-<#css>		<name>		"CSS" .
-<#css>		<ip>		"[1.1.1.3,1.1.1.4]" .
-<#css>		<hasProgram>	<#css_vpn_666> .
-<#css>		<hasProgram>	<#css_srv_10060> .
+@forSome <#SP2> .
+<#SP2>		a <Server> .
+<#SP2>		<name>		"SP2" .
+<#SP2>		<ip>		"1.1.1.6" .
+<#SP2>		<model>		<#simple1U> .
+<#SP2>		<replica>	"SPS" .
 
-@forSome <#vpns> .
-<#vpns>		a <Server> .
-<#vpns>		<name>		"VPNS" .
-<#vpns>		<ip>		"[1.1.1.1,1.1.1.2]" .
-<#vpns>		<hasProgram>	<#vpns_vpn_666> .
+@forSome <#CSS> .
+<#CSS>		a <Server> .
+<#CSS>		<name>		"CSS" .
+<#CSS>		<ip>		"[1.1.1.3,1.1.1.4]" .
+<#CSS>		<model>		<#simple1U> .
+<#CSS>		<hasProgram>	<#css_vpn_666> .
+<#CSS>		<hasProgram>	<#css_srv_10060> .
 
-@forSome <#apms> .
-<#apms>		a <Server> .
-<#apms>		<name>		"APMS" .
-<#apms>		<ip>		"[1.1.1.10,1.1.1.11,1.1.1.12]" .
-<#apms>		<hasProgram>	<#apms_sps_80> .
-<#apms>		<hasProgram>	<#apms_sps_8000> .
-<#apms>		<hasProgram>	<#apms_vpns_666> .
-<#apms>		<hasProgram>	<#apms_css_666> .
+@forSome <#CS2> .
+<#CS2>		a <Server> .
+<#CS2>		<name>		"CS2" .
+<#CS2>		<ip>		"1.1.1.4" .
+<#CS2>		<model>		<#simple1U> .
+<#CS2>		<replica>	"CSS" .
+
+@forSome <#VPNS> .
+<#VPNS>		a <Server> .
+<#VPNS>		<name>		"VPNS" .
+<#VPNS>		<ip>		"[1.1.1.1,1.1.1.2]" .
+<#VPNS>		<model>		<#simple1U> .
+<#VPNS>		<hasProgram>	<#vpns_vpn_666> .
+
+@forSome <#VPN2> .
+<#VPN2>		a <Server> .
+<#VPN2>		<name>		"VPN2" .
+<#VPN2>		<ip>		"1.1.1.2" .
+<#VPN2>		<model>		<#simple1U> .
+<#VPN2>		<replica>	"VPNS" .
+
+@forSome <#APMS> .
+<#APMS>		a <Server> .
+<#APMS>		<name>		"APMS" .
+<#APMS>		<ip>		"[1.1.1.10,1.1.1.11,1.1.1.12]" .
+<#APMS>		<model>		<#simple1U> .
+<#APMS>		<hasProgram>	<#apms_sps_80> .
+<#APMS>		<hasProgram>	<#apms_sps_8000> .
+<#APMS>		<hasProgram>	<#apms_vpns_666> .
+<#APMS>		<hasProgram>	<#apms_css_666> .
+
+@forSome <#APM2> .
+<#APM2>		a <Server> .
+<#APM2>		<name>		"APM2" .
+<#APM2>		<ip>		"1.1.1.11" .
+<#APM2>		<model>		<#simple1U> .
+<#APM2>		<replica>	"APMS" .
+
+@forSome <#APM3> .
+<#APM3>		a <Server> .
+<#APM3>		<name>		"APM3" .
+<#APM3>		<ip>		"1.1.1.12" .
+<#APM3>		<model>		<#simple1U> .
+<#APM3>		<replica>	"APMS" .
+
 
 @forSome <#X> .
 <#X>		a <Server> .
 <#X>		<name>		"X" .
 <#X>		<ip>		"3.1.1.1" .
+<#X>		<model>		<#simple1U> .
 <#X>		<hasProgram>	<#x_css_666> .
 <#X>		<hasProgram>	<#x_sps_22> .
 <#X>		<hasProgram>	<#x_sps_199> .
 <#X>		<hasProgram>	<#x_sps_514> .
 
-
 @forSome <#SS> .
 <#SS>		a <Server> .
 <#SS>		<name>		"SS" .
 <#SS>		<ip>		"[2.1.1.1,2.3.1.1,2.4.1.1]" .
+<#SS>		<model>		<#simple1U> .
 <#SS>		<hasProgram>	<#ss_sps_1414> .
+
+@forSome <#S2> .
+<#S2>		a <Server> .
+<#S2>		<name>		"S2" .
+<#S2>		<ip>		"2.3.1.1" .
+<#S2>		<model>		<#simple1U> .
+<#S2>		<replica>	"SS" .
+
+@forSome <#S3> .
+<#S3>		a <Server> .
+<#S3>		<name>		"S3" .
+<#S3>		<ip>		"2.4.1.1" .
+<#S3>		<model>		<#simple1U> .
+<#S3>		<replica>	"SS" .
+
 
 #
 #nets
@@ -194,10 +253,10 @@
 @forSome <#net1> .
 <#net1>		a <Subnet> .
 <#net1>		<name>		"NET1" .
-<#net1>		<hasServer>	<#sps> .
-<#net1>		<hasServer>	<#vpns> .
-<#net1>		<hasServer>	<#css> .
-<#net1>		<hasServer>	<#apms> .
+<#net1>		<hasServer>	<#SPS> .
+<#net1>		<hasServer>	<#VPNS> .
+<#net1>		<hasServer>	<#CSS> .
+<#net1>		<hasServer>	<#APMS> .
 
 @forSome <#net2> .
 <#net2>		a <Subnet> .
@@ -216,31 +275,36 @@
 @forSome <#sw1_p1> .
 <#sw1_p1>		a <Unit> .
 <#sw1_p1>		<number>		"1" .
-<#sw1_p1>		<type>			"1GB-UTP" .
+<#sw1_p1>		<speed>			"1Gb" .
+<#sw1_p1>		<type>			"UTP" .
 <#sw1_p1>		<connectedWith>		<#X> .
 
 @forSome <#sw1_p2> .
 <#sw1_p2>		a <Unit> .
 <#sw1_p2>		<number>		"2" .
-<#sw1_p2>		<type>			"1GB-UTP" .
+<#sw1_p2>		<speed>			"1Gb" .
+<#sw1_p2>		<type>			"UTP" .
 <#sw1_p2>		<connectedWith>		<#S3> .
 
 @forSome <#sw1_p3> .
 <#sw1_p3>		a <Unit> .
 <#sw1_p3>		<number>		"3" .
-<#sw1_p3>		<type>			"1GB-UTP" .
+<#sw1_p3>		<speed>			"1Gb" .
+<#sw1_p3>		<type>			"UTP" .
 <#sw1_p3>		<connectedWith>		<#S2> .
 
 @forSome <#sw1_p4> .
 <#sw1_p4>		a <Unit> .
 <#sw1_p4>		<number>		"4" .
-<#sw1_p4>		<type>			"1GB-UTP" .
-<#sw1_p4>		<connectedWith>		<#S1> .
+<#sw1_p4>		<speed>			"1Gb" .
+<#sw1_p4>		<type>			"UTP" .
+<#sw1_p4>		<connectedWith>		<#SS> .
 
 @forSome <#sw1_p5> .
 <#sw1_p5>		a <Unit> .
 <#sw1_p5>		<number>		"5" .
-<#sw1_p5>		<type>			"1GB-UTP" .
+<#sw1_p5>		<speed>			"1Gb" .
+<#sw1_p5>		<type>			"UTP" .
 <#sw1_p5>		<connectedWith>		<#VPN1> .
 
 #####
@@ -248,43 +312,73 @@
 @forSome <#sw2_p1> .
 <#sw2_p1>		a <Unit> .
 <#sw2_p1>		<number>		"1" .
-<#sw2_p1>		<type>			"1GB-UTP" .
-<#sw2_p1>		<connectedWith>		<#VPN1> .
+<#sw2_p1>		<speed>			"1Gb" .
+<#sw2_p1>		<type>			"UTP" .
+<#sw2_p1>		<connectedWith>		<#VPNS> .
+
+@forSome <#sw2_p2> .
+<#sw2_p2>		a <Unit> .
+<#sw2_p2>		<number>		"2" .
+<#sw2_p2>		<speed>			"1Gb" .
+<#sw2_p2>		<type>			"UTP" .
+<#sw2_p2>		<connectedWith>		<#VPN2> .
 
 @forSome <#sw2_p3> .
 <#sw2_p3>		a <Unit> .
 <#sw2_p3>		<number>		"3" .
-<#sw2_p3>		<type>			"1GB-UTP" .
-<#sw2_p3>		<connectedWith>		<#CS1> .
+<#sw2_p3>		<speed>			"1Gb" .
+<#sw2_p3>		<type>			"UTP" .
+<#sw2_p3>		<connectedWith>		<#CSS> .
+
+@forSome <#sw2_p4> .
+<#sw2_p4>		a <Unit> .
+<#sw2_p4>		<number>		"4" .
+<#sw2_p4>		<speed>			"1Gb" .
+<#sw2_p4>		<type>			"UTP" .
+<#sw2_p4>		<connectedWith>		<#CS2> .
+
 
 @forSome <#sw2_p5> .
 <#sw2_p5>		a <Unit> .
 <#sw2_p5>		<number>		"5" .
-<#sw2_p5>		<type>			"1GB-UTP" .
-<#sw2_p5>		<connectedWith>		<#SP1> .
+<#sw2_p5>		<speed>			"1Gb" .
+<#sw2_p5>		<type>			"UTP" .
+<#sw2_p5>		<connectedWith>		<#SPS> .
+
+@forSome <#sw2_p6> .
+<#sw2_p6>		a <Unit> .
+<#sw2_p6>		<number>		"6" .
+<#sw2_p6>		<speed>			"1Gb" .
+<#sw2_p6>		<type>			"UTP" .
+<#sw2_p6>		<connectedWith>		<#SP2> .
+
 
 @forSome <#sw2_p7> .
 <#sw2_p7>		a <Unit> .
 <#sw2_p7>		<number>		"7" .
-<#sw2_p7>		<type>			"1GB-UTP" .
-<#sw2_p7>		<connectedWith>		<#APM1> .
+<#sw2_p7>		<speed>			"1Gb" .
+<#sw2_p7>		<type>			"UTP" .
+<#sw2_p7>		<connectedWith>		<#APMS> .
 
 @forSome <#sw2_p8> .
 <#sw2_p8>		a <Unit> .
 <#sw2_p8>		<number>		"8" .
-<#sw2_p8>		<type>			"1GB-UTP" .
+<#sw2_p8>		<speed>			"1Gb" .
+<#sw2_p8>		<type>			"UTP" .
 <#sw2_p8>		<connectedWith>		<#APM2> .
 
 @forSome <#sw2_p9> .
 <#sw2_p9>		a <Unit> .
 <#sw2_p9>		<number>		"9" .
-<#sw2_p9>		<type>			"1GB-UTP" .
+<#sw2_p9>		<speed>			"1Gb" .
+<#sw2_p9>		<type>			"UTP" .
 <#sw2_p9>		<connectedWith>		<#APM3> .
 
 @forSome <#sw2_p10> .
 <#sw2_p10>		a <Unit> .
 <#sw2_p10>		<number>		"10" .
-<#sw2_p10>		<type>			"1GB-UTP" .
+<#sw2_p10>		<speed>			"1Gb" .
+<#sw2_p10>		<type>			"UTP" .
 <#sw2_p10>		<connectedWith>		<#TOR> .
 
 
@@ -298,8 +392,11 @@
 <#Switch2>		<sn>			"111-456" .
 <#Switch2>		<mngPort>		"0" .
 <#Switch2>		<port>			<#sw2_p1> .
+<#Switch2>		<port>			<#sw2_p2> .
 <#Switch2>		<port>			<#sw2_p3> .
+<#Switch2>		<port>			<#sw2_p4> .
 <#Switch2>		<port>			<#sw2_p5> .
+<#Switch2>		<port>			<#sw2_p6> .
 <#Switch2>		<port>			<#sw2_p7> .
 <#Switch2>		<port>			<#sw2_p8> .
 <#Switch2>		<port>			<#sw2_p9> .
@@ -339,7 +436,7 @@
 @forSome <#r1_u3> .
 <#r1_u3>		a <Unit> .
 <#r1_u3>		<number>		"3" .
-<#r1_u3>		<occupiedBy>		<#S1> .
+<#r1_u3>		<occupiedBy>		<#SS> .
 
 @forSome <#r1_u4> .
 <#r1_u4>		a <Unit> .
@@ -349,32 +446,32 @@
 @forSome <#r1_u5> .
 <#r1_u5>		a <Unit> .
 <#r1_u5>		<number>		"5" .
-<#r1_u5>		<occupiedBy>		<#VPN1> .
+<#r1_u5>		<occupiedBy>		<#VPNS> .
 
 @forSome <#r1_u6> .
 <#r1_u6>		a <Unit> .
 <#r1_u6>		<number>		"6" .
-<#r1_u6>		<occupiedBy>		"reserved (VPN2)" .
+<#r1_u6>		<occupiedBy>		<#VPN2> .
 
 @forSome <#r1_u7> .
 <#r1_u7>		a <Unit> .
 <#r1_u7>		<number>		"7" .
-<#r1_u7>		<occupiedBy>		<#CS1> .
+<#r1_u7>		<occupiedBy>		<#CSS> .
 
 @forSome <#r1_u8> .
 <#r1_u8>		a <Unit> .
 <#r1_u8>		<number>		"8" .
-<#r1_u8>		<occupiedBy>		"reserved (CS2)" .
+<#r1_u8>		<occupiedBy>		<#CS2> .
 
 @forSome <#r1_u9> .
 <#r1_u9>		a <Unit> .
 <#r1_u9>		<number>		"9" .
-<#r1_u9>		<occupiedBy>		<#SP1> .
+<#r1_u9>		<occupiedBy>		<#SPS> .
 
 @forSome <#r1_u10> .
 <#r1_u10>		a <Unit> .
 <#r1_u10>		<number>		"10" .
-<#r1_u10>		<occupiedBy>		"reserved (SP2)" .
+<#r1_u10>		<occupiedBy>		<#SP2> .
 
 @forSome <#r1_u11> .
 <#r1_u11>		a <Unit> .
@@ -384,7 +481,7 @@
 @forSome <#r1_u12> .
 <#r1_u12>		a <Unit> .
 <#r1_u12>		<number>		"12" .
-<#r1_u12>		<occupiedBy>		<#APM1> .
+<#r1_u12>		<occupiedBy>		<#APMS> .
 
 @forSome <#r1_u13> .
 <#r1_u13>		a <Unit> .
