@@ -142,7 +142,7 @@
 @forSome <#SPS> .
 <#SPS>		a <Server> .
 <#SPS>		<name>		"SPS" .
-<#SPS>		<ip>		"[1.1.1.5,1.1.1.6]" .
+<#SPS>		<ip>		"1.1.1.5" .
 <#SPS>		<model>		<#simple1U> .
 <#SPS>		<hasProgram>	<#sps_mysql_3306> .
 <#SPS>		<hasProgram>	<#sps_crypto_80> .
@@ -158,12 +158,12 @@
 <#SP2>		<name>		"SP2" .
 <#SP2>		<ip>		"1.1.1.6" .
 <#SP2>		<model>		<#simple1U> .
-<#SP2>		<replica>	"SPS" .
+<#SP2>		<replica>	<#SPS> .
 
 @forSome <#CSS> .
 <#CSS>		a <Server> .
 <#CSS>		<name>		"CSS" .
-<#CSS>		<ip>		"[1.1.1.3,1.1.1.4]" .
+<#CSS>		<ip>		"1.1.1.3" .
 <#CSS>		<model>		<#simple1U> .
 <#CSS>		<hasProgram>	<#css_vpn_666> .
 <#CSS>		<hasProgram>	<#css_srv_10060> .
@@ -173,12 +173,12 @@
 <#CS2>		<name>		"CS2" .
 <#CS2>		<ip>		"1.1.1.4" .
 <#CS2>		<model>		<#simple1U> .
-<#CS2>		<replica>	"CSS" .
+<#CS2>		<replica>	<#CSS> .
 
 @forSome <#VPNS> .
 <#VPNS>		a <Server> .
 <#VPNS>		<name>		"VPNS" .
-<#VPNS>		<ip>		"[1.1.1.1,1.1.1.2]" .
+<#VPNS>		<ip>		"1.1.1.1" .
 <#VPNS>		<model>		<#simple1U> .
 <#VPNS>		<hasProgram>	<#vpns_vpn_666> .
 
@@ -187,12 +187,12 @@
 <#VPN2>		<name>		"VPN2" .
 <#VPN2>		<ip>		"1.1.1.2" .
 <#VPN2>		<model>		<#simple1U> .
-<#VPN2>		<replica>	"VPNS" .
+<#VPN2>		<replica>	<#VPNS> .
 
 @forSome <#APMS> .
 <#APMS>		a <Server> .
 <#APMS>		<name>		"APMS" .
-<#APMS>		<ip>		"[1.1.1.10,1.1.1.11,1.1.1.12]" .
+<#APMS>		<ip>		"1.1.1.10" .
 <#APMS>		<model>		<#simple1U> .
 <#APMS>		<hasProgram>	<#apms_sps_80> .
 <#APMS>		<hasProgram>	<#apms_sps_8000> .
@@ -204,14 +204,14 @@
 <#APM2>		<name>		"APM2" .
 <#APM2>		<ip>		"1.1.1.11" .
 <#APM2>		<model>		<#simple1U> .
-<#APM2>		<replica>	"APMS" .
+<#APM2>		<replica>	<#APMS> .
 
 @forSome <#APM3> .
 <#APM3>		a <Server> .
 <#APM3>		<name>		"APM3" .
 <#APM3>		<ip>		"1.1.1.12" .
 <#APM3>		<model>		<#simple1U> .
-<#APM3>		<replica>	"APMS" .
+<#APM3>		<replica>	<#APMS> .
 
 
 @forSome <#X> .
@@ -227,7 +227,7 @@
 @forSome <#SS> .
 <#SS>		a <Server> .
 <#SS>		<name>		"SS" .
-<#SS>		<ip>		"[2.1.1.1,2.3.1.1,2.4.1.1]" .
+<#SS>		<ip>		"2.1.1.1" .
 <#SS>		<model>		<#simple1U> .
 <#SS>		<hasProgram>	<#ss_sps_1414> .
 
@@ -236,14 +236,14 @@
 <#S2>		<name>		"S2" .
 <#S2>		<ip>		"2.3.1.1" .
 <#S2>		<model>		<#simple1U> .
-<#S2>		<replica>	"SS" .
+<#S2>		<replica>	<#SS> .
 
 @forSome <#S3> .
 <#S3>		a <Server> .
 <#S3>		<name>		"S3" .
 <#S3>		<ip>		"2.4.1.1" .
 <#S3>		<model>		<#simple1U> .
-<#S3>		<replica>	"SS" .
+<#S3>		<replica>	<#SS> .
 
 
 #

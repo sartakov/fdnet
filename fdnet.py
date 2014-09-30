@@ -70,9 +70,25 @@ for net in g.triples((None,p,o)):
 #	get IP of server
 	s = URIRef(server[2])
 	p = URIRef(prefix+"/ip")
+	server_ip2=[]
 	for sip in g.triples((s,p,None)):
-	    server_ip=sip[2]
+#	    server_ip=sip[2]
+	    server_ip2.append(sip[2])
+#get replicas
+	p = URIRef(prefix+"/replica")
+	o = URIRef(server[2])
+	for replicas in g.triples((None,p,o)):
+#get IPs of replicas
+	    s = URIRef(replicas[0])
+	    p = URIRef(prefix+"/ip")
+	    for rip in g.triples((s,p,None)):
+	        server_ip2.append(rip[2])
+
+	server_ip='['+'],['.join(server_ip2)+']'
+    
 	print "\t"+server_name+":"+server_ip
+#	print "\t"+"REPLICA: "+'],['.join(server_ip2)
+
 	dot_server = dot_subnet.subgraph(name="cluster"+server_name, style='dotted', color='blue', label=server_name+":"+server_ip, overlap='false');
 #	dot.add_node(server_name);
 #get programs
@@ -112,10 +128,24 @@ for net in g.triples((None,p,o)):
 		    for rem_servers in g.triples((None,p,o)):
 			remote_server=rem_servers[0]
 # dst ip
+		#	get IP of server
 		    s = URIRef(remote_server)
 		    p = URIRef(prefix+"/ip")
+		    remote_ip2=[]
 		    for res in g.triples((s,p,None)):
-			remote_ip=res[2]
+#			remote_ip=res[2]
+			remote_ip2.append(res[2])
+#get replicas
+		    p = URIRef(prefix+"/replica")
+		    o = URIRef(remote_server)
+		    for rreplicas in g.triples((None,p,o)):
+#get IPs of replicas
+			s = URIRef(rreplicas[0])
+			p = URIRef(prefix+"/ip")
+			for drip in g.triples((s,p,None)):
+	    		    remote_ip2.append(drip[2])
+		    remote_ip='['+'],['.join(remote_ip2)+']'
+#		    print "Replica IPs: "+','.join(remote_ip2)
 #save results
 		    dst_prog.append(rpname[2])
 		    src_prog.append(program_name)
@@ -236,6 +266,13 @@ workbook = xlsxwriter.Workbook("output/"+fn_short+'.xlsx')
 print "----- IP plan -------";
 
 sheet_ip = workbook.add_worksheet("IP plan")
+merge_format = workbook.add_format({
+    'bold': 1,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter'})
+
+sheet_ip.merge_range('A1:D1', 'IP plan', merge_format)
 
 ip_plan=[]
 ip_plan.append(['IP Address','Hostname', 'Description']);
@@ -254,17 +291,14 @@ for server in g.triples((None,p,o)):
     p = URIRef(prefix+"/ip")
     for ip in g.triples((s,p,None)):
     #only one IP per server now
-	if '[' in ip[2]:
-	    t_ip=ip[2][+1:-1].split(',')[0]
-	else:
-	    t_ip=ip[2]	
+	t_ip=ip[2]	
     s = URIRef(server[0])
     p = URIRef(prefix+"/description")
     for desc in g.triples((s,p,None)):
 	t_desc=desc[2]
     ip_plan.append([t_name,t_ip,t_desc])
 
-row = 0
+row = 2
 col = 0
 
 for line in ip_plan:
@@ -276,6 +310,7 @@ for line in ip_plan:
 print "---- Physical+L2 connectivity LAN----"
 
 sheet_connect = workbook.add_worksheet("Physical+L2 connectivity LAN")
+sheet_connect.merge_range('A1:D1', "Physical+L2 connectivity LAN", merge_format)
 
 connect=[]
 connect.append(['Source host',	'Port',	'Port type',	'VLAN',	'Switch', 'Port']);
@@ -312,7 +347,7 @@ for server in g.triples((None,p,o)):
 	    tmp.append(number[2])	
     connect.append(tmp)
 
-row = 0
+row = 2
 col = 0
 
 for line in connect:
@@ -328,6 +363,7 @@ for line in connect:
 print "---- Physical placement in datacenter ----"
 
 sheet_dc = workbook.add_worksheet("Physical placement")
+sheet_dc.merge_range('A1:D1', "Physical placement", merge_format)
 
 phys=[]
 phys.append(['Equipment','Rack','Unit','Power, W','Size, units','Weight, kg','Cooling, BTU/hr']);
@@ -388,7 +424,7 @@ for server in g.triples((None,p,o)):
     phys.append(tmp)
 
 
-row = 0
+row = 2
 col = 0
 
 for line in phys:
