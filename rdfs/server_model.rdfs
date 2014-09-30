@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf [
+   <!ENTITY rdfs     "http://www.w3.org/2000/01/rdf-schema">
+
+    ]>
+
+<rdf:RDF  
+   xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="&rdfs;#"
+   xmlns     ="&rdfs;#" >
+
+<Class rdf:ID="Model">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">model</label>
+  <comment xml:lang="en">Model - minimal entity. </comment>
+</Class>
+
+<rdf:Property rdf:ID="name">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">name</label>
+  <comment xml:lang="en">The name of the model</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="size">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">size</label>
+  <comment xml:lang="en">size in units</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="power">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">power</label>
+  <comment xml:lang="en">Power, W</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="weight">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">weight</label>
+  <comment xml:lang="en">Weight, kg</comment>
+</rdf:Property>
+
+<rdf:Property rdf:ID="cooling">
+  <domain rdf:resource="#Model"/>
+  <label xml:lang="en">cooling</label>
+  <comment xml:lang="en">Cooling, BTU/hr</comment>
+</rdf:Property>
+
+
+</rdf:RDF>
