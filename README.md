@@ -41,8 +41,6 @@ fdnet (Formal Described Networks ) представляет собой набо�
 
 -   Program
 
--   Replica
-
 Rack
 ----
 
