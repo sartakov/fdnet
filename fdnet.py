@@ -22,16 +22,11 @@ g = Graph()
 #g.parse("uraf.n3", format="n3")
 g.parse(fname)
 
-#for triple in g.triples((None, None, None)):
-#    print triple
-
 #
 #global variables
 #
 
 prefix="file://"+os.getcwd()
-
-nets=[]
 
 src_ip=[]
 dst_ip=[]
@@ -50,35 +45,33 @@ p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 o = URIRef(prefix+"/Subnet")
 
 for net in g.triples((None,p,o)):
-# get name of subne
+    # get name of subne
     s = URIRef(net[0])
     p = URIRef(prefix+"/name")
     for name in g.triples((s,p,None)):
 	net_name=name[2]
     print "----"+net_name+"------";
     dot_subnet = dot_base.subgraph(name="cluster"+net_name, style='dotted', color='black', label=net_name, overlap='false');
-#  get list of servers
+    #  get list of servers
     s = URIRef(net[0])
     p = URIRef(prefix+"/hasServer")
     for server in g.triples((s,p,None)):
-#	print (server[0], server[1], server[2])
-#	get name of server
+	#	get name of server
 	s = URIRef(server[2])
 	p = URIRef(prefix+"/name")
 	for sname in g.triples((s,p,None)):
 	    server_name=sname[2]
-#	get IP of server
+	#	get IP of server
 	s = URIRef(server[2])
 	p = URIRef(prefix+"/ip")
 	server_ip2=[]
 	for sip in g.triples((s,p,None)):
-#	    server_ip=sip[2]
 	    server_ip2.append(sip[2])
-#get replicas
+	#get replicas
 	p = URIRef(prefix+"/replica")
 	o = URIRef(server[2])
 	for replicas in g.triples((None,p,o)):
-#get IPs of replicas
+	    #get IPs of replicas
 	    s = URIRef(replicas[0])
 	    p = URIRef(prefix+"/ip")
 	    for rip in g.triples((s,p,None)):
@@ -86,21 +79,19 @@ for net in g.triples((None,p,o)):
 
 	server_ip='['+'],['.join(server_ip2)+']'
     
-	print "\t"+server_name+":"+server_ip
-#	print "\t"+"REPLICA: "+'],['.join(server_ip2)
+	print "\t"+server_name+":"+server_ip2
 
 	dot_server = dot_subnet.subgraph(name="cluster"+server_name, style='dotted', color='blue', label=server_name+":"+server_ip, overlap='false');
-#	dot.add_node(server_name);
-#get programs
+	#get programs
 	s = URIRef(server[2])
 	p = URIRef(prefix+"/hasProgram")
 	for program in g.triples((s,p,None)):
-#	get name of a program
+	    #	get name of a program
 	    s = URIRef(program[2])
 	    p = URIRef(prefix+"/name")
 	    for pname in g.triples((s,p,None)):
 		program_name=pname[2]
-#	get listenport of a program
+	    #get listenport of a program
 	    s = URIRef(program[2])
 	    p = URIRef(prefix+"/listenPort")
 	    program_port=""
@@ -108,45 +99,44 @@ for net in g.triples((None,p,o)):
 		program_port=listen[2]
 	    print "\t\t"+program_name+":"+program_port;
 	    dot_server.add_node(program_name, shape="record", name=program_name, label=program_name+":"+program_port, overlap='false');
-#	get connection
+	    #	get connection
 	    s = URIRef(program[2])
 	    p = URIRef(prefix+"/communicateWith")
 	    program_port=""
 	    for communicate in g.triples((s,p,None)):
-#	get name of a program communicte with
+		#	get name of a program communicte with
 		s = URIRef(communicate[2])
 		p = URIRef(prefix+"/name")
 		for rpname in g.triples((s,p,None)):
-#remote port
+		    #remote port
 		    s = URIRef(rpname[0])
 		    p = URIRef(prefix+"/listenPort")
 		    for rportname in g.triples((s,p,None)):
 			remote_port=rportname[2]
-# dst server
+		    # dst server
 		    o = URIRef(rpname[0])
 		    p = URIRef(prefix+"/hasProgram")
 		    for rem_servers in g.triples((None,p,o)):
 			remote_server=rem_servers[0]
-# dst ip
-		#	get IP of server
+		    # dst ip
+		    #get IP of server
 		    s = URIRef(remote_server)
 		    p = URIRef(prefix+"/ip")
 		    remote_ip2=[]
 		    for res in g.triples((s,p,None)):
-#			remote_ip=res[2]
 			remote_ip2.append(res[2])
-#get replicas
+		    #get replicas
 		    p = URIRef(prefix+"/replica")
 		    o = URIRef(remote_server)
 		    for rreplicas in g.triples((None,p,o)):
-#get IPs of replicas
+			#get IPs of replicas
 			s = URIRef(rreplicas[0])
 			p = URIRef(prefix+"/ip")
 			for drip in g.triples((s,p,None)):
 	    		    remote_ip2.append(drip[2])
 		    remote_ip='['+'],['.join(remote_ip2)+']'
 #		    print "Replica IPs: "+','.join(remote_ip2)
-#save results
+		    #save results
 		    dst_prog.append(rpname[2])
 		    src_prog.append(program_name)
 		    dst_port.append(remote_port)
@@ -178,25 +168,9 @@ ret_src_ip=[]
 ret_dst_ip=[]
 
 
-#
-def add_dst_src(s_ip, d_ip):
-    global in_src_ip;
-    global in_dst_ip;
-#    print (s_ip, d_ip)
-    for i in range (0, len(in_dst_ip)):
-	if in_dst_ip[i]==d_ip and s_ip in in_src_ip[i]:
-	    return;
-	elif in_dst_ip[i]==d_ip:
-	    in_src_ip[i]=in_src_ip[i]+", "+s_ip;
-	    return;
-    in_dst_ip.append(d_ip)
-    in_src_ip.append(s_ip)
-
-
 def add_src_dst(s_ip, d_ip):
     global ret_src_ip;
     global ret_dst_ip;
-#    print (s_ip, d_ip)
     for i in range (0, len(ret_src_ip)):
 	if ret_src_ip[i]==s_ip and d_ip in ret_dst_ip[i]:
 	    return;
@@ -240,14 +214,6 @@ for i in range (0, len(u_src_ip)):
     f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
     s.write(str(sid)+"|| Wrong port connection\n");
     sid+=1
-
-#print "-------- input --------" 
-#f.write("#---input---\n");
-#for i in range (0, len(in_dst_ip)):
-#    print "alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
-##    f.write("alert tcp !["+in_src_ip[i]+"] any -> ["+in_dst_ip[i]+"] any"+ " (msg:\" Incomming connection from illegal IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
-##    s.write(str(sid)+"|| Incomming connection from illegal IP\n");
-#    sid+=1
 
 print "-------- overall --------" 
 f.write("#---overall---\n");
@@ -315,11 +281,12 @@ sheet_connect.merge_range('A1:D1', "Physical+L2 connectivity LAN", merge_format)
 connect=[]
 connect.append(['Source host',	'Port',	'Port type',	'VLAN',	'Switch', 'Port']);
 
+#servers
 p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 o = URIRef(prefix+"/Server")
 for server in g.triples((None,p,o)):
     tmp=[]
-#name
+    #name
     s = URIRef(server[0])
     p = URIRef(prefix+"/name")
     for name in g.triples((s,p,None)):
@@ -327,7 +294,7 @@ for server in g.triples((None,p,o)):
     tmp.append("eth0");
     tmp.append("1GB-UTP");
     tmp.append("0");
-#port id
+    #port id
     p = URIRef(prefix+"/connectedWith")
     o = URIRef(server[0])
     for port in g.triples((None,p,o)):
@@ -372,35 +339,92 @@ p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 o = URIRef(prefix+"/Server")
 for server in g.triples((None,p,o)):
     tmp=[]
-#name
+    #name
     s = URIRef(server[0])
     p = URIRef(prefix+"/name")
     for name in g.triples((s,p,None)):
 	tmp.append(name[2])
-#unit
+    #unit
     p = URIRef(prefix+"/occupiedBy")
     o = URIRef(server[0])
     for unit in g.triples((None,p,o)):
-    #rack id
+	#rack id
 	p = URIRef(prefix+"/hasUnit")
 	o = URIRef(unit[0])
         for racks in g.triples((None,p,o)):
-        #rack name
+    	    #rack name
 	    s = URIRef(racks[0])
 	    p = URIRef(prefix+"/name")
 	    for r_name in g.triples((s,p,None)):
 		tmp.append(r_name[2])
-    #unit name
+	#unit name
 	s = URIRef(unit[0])
 	p = URIRef(prefix+"/number")
 	for u_number in g.triples((s,p,None)):
 	    tmp.append(u_number[2])
 
-#model id
+    #model id
     s = URIRef(server[0])
     p = URIRef(prefix+"/model")
     for models in g.triples((s,p,None)):
-    #model features
+	#model features
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/power")
+	for power in g.triples((s,p,None)):
+	    tmp.append(power[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/size")
+	for size in g.triples((s,p,None)):
+	    tmp.append(size[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/weight")
+	for weight in g.triples((s,p,None)):
+	    tmp.append(weight[2])
+
+	s = URIRef(models[2])
+        p = URIRef(prefix+"/cooling")
+	for cooling in g.triples((s,p,None)):
+	    tmp.append(cooling[2])
+
+    phys.append(tmp)
+
+#switches
+
+p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+o = URIRef(prefix+"/Switch")
+for switch in g.triples((None,p,o)):
+    tmp=[]
+    #name
+    s = URIRef(switch[0])
+    p = URIRef(prefix+"/name")
+    for name in g.triples((s,p,None)):
+	tmp.append(name[2])
+    #unit
+    p = URIRef(prefix+"/occupiedBy")
+    o = URIRef(switch[0])
+    for unit in g.triples((None,p,o)):
+	#rack id
+	p = URIRef(prefix+"/hasUnit")
+	o = URIRef(unit[0])
+        for racks in g.triples((None,p,o)):
+    	    #rack name
+	    s = URIRef(racks[0])
+	    p = URIRef(prefix+"/name")
+	    for r_name in g.triples((s,p,None)):
+		tmp.append(r_name[2])
+        #unit name
+	s = URIRef(unit[0])
+	p = URIRef(prefix+"/number")
+	for u_number in g.triples((s,p,None)):
+	    tmp.append(u_number[2])
+
+    #model id
+    s = URIRef(switch[0])
+    p = URIRef(prefix+"/model")
+    for models in g.triples((s,p,None)):
+	#model features
 	s = URIRef(models[2])
         p = URIRef(prefix+"/power")
 	for power in g.triples((s,p,None)):

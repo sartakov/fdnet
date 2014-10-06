@@ -51,5 +51,11 @@
   <comment xml:lang="en">Description of the model (size, weight, etc).</comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="replica">
+  <domain rdf:resource="#Server"/>
+  <label xml:lang="en">replica</label>
+  <comment xml:lang="en">This server can be replic of another server</comment>
+</rdf:Property>
+
 
 </rdf:RDF>

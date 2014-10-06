@@ -137,6 +137,15 @@
 <#simple1U>		<cooling>	"nan" .
 <#simple1U>		<weight>	"19.5" .
 
+@forSome <#CISCO2950> .
+<#CISCO2950>		a <Model> .
+<#CISCO2950>		<name>		"Cisco Catalyst 2950-24" .
+<#CISCO2950>		<size>		"1U" .
+<#CISCO2950>		<power>		"30" .
+<#CISCO2950>		<cooling>	"nan" .
+<#CISCO2950>		<weight>	"3" .
+
+
 #servers
 
 @forSome <#SPS> .
@@ -245,6 +254,12 @@
 <#S3>		<model>		<#simple1U> .
 <#S3>		<replica>	<#SS> .
 
+@forSome <#TOR> .
+<#TOR>		a <Server> .
+<#TOR>		<name>		"TOR" .
+<#TOR>		<ip>		"1.1.1.254" .
+<#TOR>		<model>		<#simple1U> .
+
 
 #
 #nets
@@ -273,35 +288,35 @@
 #
 
 @forSome <#sw1_p1> .
-<#sw1_p1>		a <Unit> .
+<#sw1_p1>		a <Port> .
 <#sw1_p1>		<number>		"1" .
 <#sw1_p1>		<speed>			"1Gb" .
 <#sw1_p1>		<type>			"UTP" .
 <#sw1_p1>		<connectedWith>		<#X> .
 
 @forSome <#sw1_p2> .
-<#sw1_p2>		a <Unit> .
+<#sw1_p2>		a <Port> .
 <#sw1_p2>		<number>		"2" .
 <#sw1_p2>		<speed>			"1Gb" .
 <#sw1_p2>		<type>			"UTP" .
 <#sw1_p2>		<connectedWith>		<#S3> .
 
 @forSome <#sw1_p3> .
-<#sw1_p3>		a <Unit> .
+<#sw1_p3>		a <Port> .
 <#sw1_p3>		<number>		"3" .
 <#sw1_p3>		<speed>			"1Gb" .
 <#sw1_p3>		<type>			"UTP" .
 <#sw1_p3>		<connectedWith>		<#S2> .
 
 @forSome <#sw1_p4> .
-<#sw1_p4>		a <Unit> .
+<#sw1_p4>		a <Port> .
 <#sw1_p4>		<number>		"4" .
 <#sw1_p4>		<speed>			"1Gb" .
 <#sw1_p4>		<type>			"UTP" .
 <#sw1_p4>		<connectedWith>		<#SS> .
 
 @forSome <#sw1_p5> .
-<#sw1_p5>		a <Unit> .
+<#sw1_p5>		a <Port> .
 <#sw1_p5>		<number>		"5" .
 <#sw1_p5>		<speed>			"1Gb" .
 <#sw1_p5>		<type>			"UTP" .
@@ -310,28 +325,28 @@
 #####
 
 @forSome <#sw2_p1> .
-<#sw2_p1>		a <Unit> .
+<#sw2_p1>		a <Port> .
 <#sw2_p1>		<number>		"1" .
 <#sw2_p1>		<speed>			"1Gb" .
 <#sw2_p1>		<type>			"UTP" .
 <#sw2_p1>		<connectedWith>		<#VPNS> .
 
 @forSome <#sw2_p2> .
-<#sw2_p2>		a <Unit> .
+<#sw2_p2>		a <Port> .
 <#sw2_p2>		<number>		"2" .
 <#sw2_p2>		<speed>			"1Gb" .
 <#sw2_p2>		<type>			"UTP" .
 <#sw2_p2>		<connectedWith>		<#VPN2> .
 
 @forSome <#sw2_p3> .
-<#sw2_p3>		a <Unit> .
+<#sw2_p3>		a <Port> .
 <#sw2_p3>		<number>		"3" .
 <#sw2_p3>		<speed>			"1Gb" .
 <#sw2_p3>		<type>			"UTP" .
 <#sw2_p3>		<connectedWith>		<#CSS> .
 
 @forSome <#sw2_p4> .
-<#sw2_p4>		a <Unit> .
+<#sw2_p4>		a <Port> .
 <#sw2_p4>		<number>		"4" .
 <#sw2_p4>		<speed>			"1Gb" .
 <#sw2_p4>		<type>			"UTP" .
@@ -339,14 +354,14 @@
 
 
 @forSome <#sw2_p5> .
-<#sw2_p5>		a <Unit> .
+<#sw2_p5>		a <Port> .
 <#sw2_p5>		<number>		"5" .
 <#sw2_p5>		<speed>			"1Gb" .
 <#sw2_p5>		<type>			"UTP" .
 <#sw2_p5>		<connectedWith>		<#SPS> .
 
 @forSome <#sw2_p6> .
-<#sw2_p6>		a <Unit> .
+<#sw2_p6>		a <Port> .
 <#sw2_p6>		<number>		"6" .
 <#sw2_p6>		<speed>			"1Gb" .
 <#sw2_p6>		<type>			"UTP" .
@@ -354,28 +369,28 @@
 
 
 @forSome <#sw2_p7> .
-<#sw2_p7>		a <Unit> .
+<#sw2_p7>		a <Port> .
 <#sw2_p7>		<number>		"7" .
 <#sw2_p7>		<speed>			"1Gb" .
 <#sw2_p7>		<type>			"UTP" .
 <#sw2_p7>		<connectedWith>		<#APMS> .
 
 @forSome <#sw2_p8> .
-<#sw2_p8>		a <Unit> .
+<#sw2_p8>		a <Port> .
 <#sw2_p8>		<number>		"8" .
 <#sw2_p8>		<speed>			"1Gb" .
 <#sw2_p8>		<type>			"UTP" .
 <#sw2_p8>		<connectedWith>		<#APM2> .
 
 @forSome <#sw2_p9> .
-<#sw2_p9>		a <Unit> .
+<#sw2_p9>		a <Port> .
 <#sw2_p9>		<number>		"9" .
 <#sw2_p9>		<speed>			"1Gb" .
 <#sw2_p9>		<type>			"UTP" .
 <#sw2_p9>		<connectedWith>		<#APM3> .
 
 @forSome <#sw2_p10> .
-<#sw2_p10>		a <Unit> .
+<#sw2_p10>		a <Port> .
 <#sw2_p10>		<number>		"10" .
 <#sw2_p10>		<speed>			"1Gb" .
 <#sw2_p10>		<type>			"UTP" .
@@ -387,9 +402,10 @@
 #
 
 @forSome <#Switch2> .
-<#Switch2>		a <Unit> .
+<#Switch2>		a <Switch> .
 <#Switch2>		<name>			"Switch2" .
 <#Switch2>		<sn>			"111-456" .
+<#Switch2>		<model>			<#CISCO2950> .
 <#Switch2>		<mngPort>		"0" .
 <#Switch2>		<port>			<#sw2_p1> .
 <#Switch2>		<port>			<#sw2_p2> .
@@ -404,10 +420,11 @@
 
 
 @forSome <#Switch1> .
-<#Switch1>		a <Unit> .
+<#Switch1>		a <Switch> .
 <#Switch1>		<name>			"Switch1" .
 <#Switch1>		<sn>			"123-456" .
 <#Switch1>		<mngPort>		"0" .
+<#Switch1>		<model>			<#CISCO2950> .
 <#Switch1>		<port>			<#sw1_p1> .
 <#Switch1>		<port>			<#sw1_p2> .
 <#Switch1>		<port>			<#sw1_p3> .
