@@ -39,6 +39,13 @@
   <comment xml:lang="en">Server has programs.</comment>
 </rdf:Property>
 
+<rdf:Property rdf:ID="hasDevice">
+  <domain rdf:resource="#Server"/>
+  <label xml:lang="en">hasDevice</label>
+  <comment xml:lang="en">Server has device.</comment>
+</rdf:Property>
+
+
 <rdf:Property rdf:ID="model">
   <domain rdf:resource="#Server"/>
   <label xml:lang="en">model</label>

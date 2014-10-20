@@ -127,6 +127,134 @@
 <#vpns_vpn_666>	<name>		"VPN" .
 <#vpns_vpn_666>	<listenPort>	"666" .
 
+#devices 
+
+@forSome <#TOR_eth0> .
+<#TOR_eth0>		a <NetDev> .
+<#TOR_eth0>		<name>		"eth0" .
+<#TOR_eth0>		<ip>		"1.1.1.254" .
+<#TOR_eth0>		<hwAddr>	"01-01-01-02-05-04" .
+<#TOR_eth0>		<speed>		"1Gb" .
+<#TOR_eth0>		<type>		"UTP" .
+<#TOR_eth0>		<connectedWith>	<#sw2_p10> .
+
+@forSome <#S3_eth0> .
+<#S3_eth0>		a <NetDev> .
+<#S3_eth0>		<name>		"eth0" .
+<#S3_eth0>		<ip>		"2.4.1.1" .
+<#S3_eth0>		<hwAddr>	"00-00-02-04-01-01" .
+<#S3_eth0>		<speed>		"1Gb" .
+<#S3_eth0>		<type>		"UTP" .
+<#S3_eth0>		<connectedWith>	<#sw1_p2> .
+
+@forSome <#S2_eth0> .
+<#S2_eth0>		a <NetDev> .
+<#S2_eth0>		<name>		"eth0" .
+<#S2_eth0>		<ip>		"2.3.1.1" .
+<#S2_eth0>		<hwAddr>	"00-00-02-03-01-01" .
+<#S2_eth0>		<speed>		"1Gb" .
+<#S2_eth0>		<type>		"UTP" .
+<#S2_eth0>		<connectedWith>	<#sw1_p3> .
+
+@forSome <#SS_eth0> .
+<#SS_eth0>		a <NetDev> .
+<#SS_eth0>		<name>		"eth0" .
+<#SS_eth0>		<ip>		"2.1.1.1" .
+<#SS_eth0>		<hwAddr>	"00-00-02-01-01-01" .
+<#SS_eth0>		<speed>		"1Gb" .
+<#SS_eth0>		<type>		"UTP" .
+<#SS_eth0>		<connectedWith>	<#sw1_p4> .
+
+@forSome <#X_eth0> .
+<#X_eth0>		a <NetDev> .
+<#X_eth0>		<name>		"eth0" .
+<#X_eth0>		<ip>		"3.1.1.1" .
+<#X_eth0>		<hwAddr>	"00-00-03-01-01-01" .
+<#X_eth0>		<speed>		"1Gb" .
+<#X_eth0>		<type>		"UTP" .
+<#X_eth0>		<connectedWith>	<#sw1_p1> .
+
+@forSome <#APM3_eth0> .
+<#APM3_eth0>		a <NetDev> .
+<#APM3_eth0>		<name>		"eth0" .
+<#APM3_eth0>		<ip>		"1.1.1.12" .
+<#APM3_eth0>		<hwAddr>	"00-00-01-01-01-12" .
+<#APM3_eth0>		<speed>		"1Gb" .
+<#APM3_eth0>		<type>		"UTP" .
+<#APM3_eth0>		<connectedWith>	<#sw2_p9> .
+
+@forSome <#APM2_eth0> .
+<#APM2_eth0>		a <NetDev> .
+<#APM2_eth0>		<name>		"eth0" .
+<#APM2_eth0>		<ip>		"1.1.1.11" .
+<#APM2_eth0>		<hwAddr>	"00-00-01-01-01-11" .
+<#APM2_eth0>		<speed>		"1Gb" .
+<#APM2_eth0>		<type>		"UTP" .
+<#APM2_eth0>		<connectedWith>	<#sw2_p8> .
+
+@forSome <#APMS_eth0> .
+<#APMS_eth0>		a <NetDev> .
+<#APMS_eth0>		<name>		"eth0" .
+<#APMS_eth0>		<ip>		"1.1.1.10" .
+<#APMS_eth0>		<hwAddr>	"00-00-01-01-01-10" .
+<#APMS_eth0>		<speed>		"1Gb" .
+<#APMS_eth0>		<type>		"UTP" .
+<#APMS_eth0>		<connectedWith>	<#sw2_p7> .
+
+@forSome <#VPN2_eth0> .
+<#VPN2_eth0>		a <NetDev> .
+<#VPN2_eth0>		<name>		"eth0" .
+<#VPN2_eth0>		<ip>		"1.1.1.2" .
+<#VPN2_eth0>		<hwAddr>	"00-00-01-01-01-02" .
+<#VPN2_eth0>		<speed>		"1Gb" .
+<#VPN2_eth0>		<type>		"UTP" .
+<#VPN2_eth0>		<connectedWith>	<#sw2_p2> .
+
+@forSome <#VPNS_eth0> .
+<#VPNS_eth0>		a <NetDev> .
+<#VPNS_eth0>		<name>		"eth0" .
+<#VPNS_eth0>		<ip>		"1.1.1.1" .
+<#VPNS_eth0>		<hwAddr>	"00-00-01-01-01-01" .
+<#VPNS_eth0>		<speed>		"1Gb" .
+<#VPNS_eth0>		<type>		"UTP" .
+<#VPNS_eth0>		<connectedWith>	<#sw2_p1> .
+
+@forSome <#CS2_eth0> .
+<#CS2_eth0>		a <NetDev> .
+<#CS2_eth0>		<name>		"eth0" .
+<#CS2_eth0>		<ip>		"1.1.1.4" .
+<#CS2_eth0>		<hwAddr>	"00-00-01-01-01-04" .
+<#CS2_eth0>		<speed>		"1Gb" .
+<#CS2_eth0>		<type>		"UTP" .
+<#CS2_eth0>		<connectedWith>	<#sw2_p4> .
+
+@forSome <#CSS_eth0> .
+<#CSS_eth0>		a <NetDev> .
+<#CSS_eth0>		<name>		"eth0" .
+<#CSS_eth0>		<ip>		"1.1.1.3" .
+<#CSS_eth0>		<hwAddr>	"00-00-01-01-01-03" .
+<#CSS_eth0>		<speed>		"1Gb" .
+<#CSS_eth0>		<type>		"UTP" .
+<#CSS_eth0>		<connectedWith>	<#sw2_p3> .
+
+@forSome <#SP2_eth0> .
+<#SP2_eth0>		a <NetDev> .
+<#SP2_eth0>		<name>		"eth0" .
+<#SP2_eth0>		<ip>		"1.1.1.6" .
+<#SP2_eth0>		<hwAddr>	"00-00-01-01-01-06" .
+<#SP2_eth0>		<speed>		"1Gb" .
+<#SP2_eth0>		<type>		"UTP" .
+<#SP2_eth0>		<connectedWith>	<#sw2_p6> .
+
+@forSome <#SPS_eth0> .
+<#SPS_eth0>		a <NetDev> .
+<#SPS_eth0>		<name>		"eth0" .
+<#SPS_eth0>		<ip>		"1.1.1.5" .
+<#SPS_eth0>		<hwAddr>	"00-00-01-01-01-05" .
+<#SPS_eth0>		<speed>		"1Gb" .
+<#SPS_eth0>		<type>		"UTP" .
+<#SPS_eth0>		<connectedWith>	<#sw2_p5> .
+
 #models
 
 @forSome <#simple1U> .
@@ -151,7 +279,7 @@
 @forSome <#SPS> .
 <#SPS>		a <Server> .
 <#SPS>		<name>		"SPS" .
-<#SPS>		<ip>		"1.1.1.5" .
+<#SPS>		<hasDevice>	<#SPS_eth0> .
 <#SPS>		<model>		<#simple1U> .
 <#SPS>		<hasProgram>	<#sps_mysql_3306> .
 <#SPS>		<hasProgram>	<#sps_crypto_80> .
@@ -165,14 +293,14 @@
 @forSome <#SP2> .
 <#SP2>		a <Server> .
 <#SP2>		<name>		"SP2" .
-<#SP2>		<ip>		"1.1.1.6" .
+<#SP2>		<hasDevice>	<#SP2_eth0> .
 <#SP2>		<model>		<#simple1U> .
 <#SP2>		<replica>	<#SPS> .
 
 @forSome <#CSS> .
 <#CSS>		a <Server> .
 <#CSS>		<name>		"CSS" .
-<#CSS>		<ip>		"1.1.1.3" .
+<#CSS>		<hasDevice>	<#CSS_eth0> .
 <#CSS>		<model>		<#simple1U> .
 <#CSS>		<hasProgram>	<#css_vpn_666> .
 <#CSS>		<hasProgram>	<#css_srv_10060> .
@@ -180,28 +308,28 @@
 @forSome <#CS2> .
 <#CS2>		a <Server> .
 <#CS2>		<name>		"CS2" .
-<#CS2>		<ip>		"1.1.1.4" .
+<#CS2>		<hasDevice>	<#CS2_eth0> .
 <#CS2>		<model>		<#simple1U> .
 <#CS2>		<replica>	<#CSS> .
 
 @forSome <#VPNS> .
 <#VPNS>		a <Server> .
 <#VPNS>		<name>		"VPNS" .
-<#VPNS>		<ip>		"1.1.1.1" .
+<#VPNS>		<hasDevice>	<#VPNS_eth0> .
 <#VPNS>		<model>		<#simple1U> .
 <#VPNS>		<hasProgram>	<#vpns_vpn_666> .
 
 @forSome <#VPN2> .
 <#VPN2>		a <Server> .
 <#VPN2>		<name>		"VPN2" .
-<#VPN2>		<ip>		"1.1.1.2" .
+<#VPN2>		<hasDevice>	<#VPN2_eth0> .
 <#VPN2>		<model>		<#simple1U> .
 <#VPN2>		<replica>	<#VPNS> .
 
 @forSome <#APMS> .
 <#APMS>		a <Server> .
 <#APMS>		<name>		"APMS" .
-<#APMS>		<ip>		"1.1.1.10" .
+<#APMS>		<hasDevice>	<#APMS_eth0> .
 <#APMS>		<model>		<#simple1U> .
 <#APMS>		<hasProgram>	<#apms_sps_80> .
 <#APMS>		<hasProgram>	<#apms_sps_8000> .
@@ -211,14 +339,14 @@
 @forSome <#APM2> .
 <#APM2>		a <Server> .
 <#APM2>		<name>		"APM2" .
-<#APM2>		<ip>		"1.1.1.11" .
+<#APM2>		<hasDevice>	<#APM2_eth0> .
 <#APM2>		<model>		<#simple1U> .
 <#APM2>		<replica>	<#APMS> .
 
 @forSome <#APM3> .
 <#APM3>		a <Server> .
 <#APM3>		<name>		"APM3" .
-<#APM3>		<ip>		"1.1.1.12" .
+<#APM3>		<hasDevice>	<#APM3_eth0> .
 <#APM3>		<model>		<#simple1U> .
 <#APM3>		<replica>	<#APMS> .
 
@@ -226,7 +354,7 @@
 @forSome <#X> .
 <#X>		a <Server> .
 <#X>		<name>		"X" .
-<#X>		<ip>		"3.1.1.1" .
+<#X>		<hasDevice>	<#X_eth0> .
 <#X>		<model>		<#simple1U> .
 <#X>		<hasProgram>	<#x_css_666> .
 <#X>		<hasProgram>	<#x_sps_22> .
@@ -236,28 +364,28 @@
 @forSome <#SS> .
 <#SS>		a <Server> .
 <#SS>		<name>		"SS" .
-<#SS>		<ip>		"2.1.1.1" .
+<#SS>		<hasDevice>	<#SS_eth0> .
 <#SS>		<model>		<#simple1U> .
 <#SS>		<hasProgram>	<#ss_sps_1414> .
 
 @forSome <#S2> .
 <#S2>		a <Server> .
 <#S2>		<name>		"S2" .
-<#S2>		<ip>		"2.3.1.1" .
+<#S2>		<hasDevice>	<#S2_eth0> .
 <#S2>		<model>		<#simple1U> .
 <#S2>		<replica>	<#SS> .
 
 @forSome <#S3> .
 <#S3>		a <Server> .
 <#S3>		<name>		"S3" .
-<#S3>		<ip>		"2.4.1.1" .
+<#S3>		<hasDevice>	<#S3_eth0> .
 <#S3>		<model>		<#simple1U> .
 <#S3>		<replica>	<#SS> .
 
 @forSome <#TOR> .
 <#TOR>		a <Server> .
 <#TOR>		<name>		"TOR" .
-<#TOR>		<ip>		"1.1.1.254" .
+<#TOR>		<hasDevice>	<#TOR_eth0> .
 <#TOR>		<model>		<#simple1U> .
 
 
@@ -292,35 +420,35 @@
 <#sw1_p1>		<number>		"1" .
 <#sw1_p1>		<speed>			"1Gb" .
 <#sw1_p1>		<type>			"UTP" .
-<#sw1_p1>		<connectedWith>		<#X> .
+<#sw1_p1>		<connectedWith>		<#X_eth0> .
 
 @forSome <#sw1_p2> .
 <#sw1_p2>		a <Port> .
 <#sw1_p2>		<number>		"2" .
 <#sw1_p2>		<speed>			"1Gb" .
 <#sw1_p2>		<type>			"UTP" .
-<#sw1_p2>		<connectedWith>		<#S3> .
+<#sw1_p2>		<connectedWith>		<#S3_eth0> .
 
 @forSome <#sw1_p3> .
 <#sw1_p3>		a <Port> .
 <#sw1_p3>		<number>		"3" .
 <#sw1_p3>		<speed>			"1Gb" .
 <#sw1_p3>		<type>			"UTP" .
-<#sw1_p3>		<connectedWith>		<#S2> .
+<#sw1_p3>		<connectedWith>		<#S2_eth0> .
 
 @forSome <#sw1_p4> .
 <#sw1_p4>		a <Port> .
 <#sw1_p4>		<number>		"4" .
 <#sw1_p4>		<speed>			"1Gb" .
 <#sw1_p4>		<type>			"UTP" .
-<#sw1_p4>		<connectedWith>		<#SS> .
+<#sw1_p4>		<connectedWith>		<#SS_eth0> .
 
 @forSome <#sw1_p5> .
 <#sw1_p5>		a <Port> .
 <#sw1_p5>		<number>		"5" .
 <#sw1_p5>		<speed>			"1Gb" .
 <#sw1_p5>		<type>			"UTP" .
-<#sw1_p5>		<connectedWith>		<#VPN1> .
+<#sw1_p5>		<connectedWith>		<#VPN1_eth0> .
 
 #####
 
@@ -329,28 +457,28 @@
 <#sw2_p1>		<number>		"1" .
 <#sw2_p1>		<speed>			"1Gb" .
 <#sw2_p1>		<type>			"UTP" .
-<#sw2_p1>		<connectedWith>		<#VPNS> .
+<#sw2_p1>		<connectedWith>		<#VPNS_eth0> .
 
 @forSome <#sw2_p2> .
 <#sw2_p2>		a <Port> .
 <#sw2_p2>		<number>		"2" .
 <#sw2_p2>		<speed>			"1Gb" .
 <#sw2_p2>		<type>			"UTP" .
-<#sw2_p2>		<connectedWith>		<#VPN2> .
+<#sw2_p2>		<connectedWith>		<#VPN2_eth0> .
 
 @forSome <#sw2_p3> .
 <#sw2_p3>		a <Port> .
 <#sw2_p3>		<number>		"3" .
 <#sw2_p3>		<speed>			"1Gb" .
 <#sw2_p3>		<type>			"UTP" .
-<#sw2_p3>		<connectedWith>		<#CSS> .
+<#sw2_p3>		<connectedWith>		<#CSS_eth0> .
 
 @forSome <#sw2_p4> .
 <#sw2_p4>		a <Port> .
 <#sw2_p4>		<number>		"4" .
 <#sw2_p4>		<speed>			"1Gb" .
 <#sw2_p4>		<type>			"UTP" .
-<#sw2_p4>		<connectedWith>		<#CS2> .
+<#sw2_p4>		<connectedWith>		<#CS2_eth0> .
 
 
 @forSome <#sw2_p5> .
@@ -358,14 +486,14 @@
 <#sw2_p5>		<number>		"5" .
 <#sw2_p5>		<speed>			"1Gb" .
 <#sw2_p5>		<type>			"UTP" .
-<#sw2_p5>		<connectedWith>		<#SPS> .
+<#sw2_p5>		<connectedWith>		<#SPS_eth0> .
 
 @forSome <#sw2_p6> .
 <#sw2_p6>		a <Port> .
 <#sw2_p6>		<number>		"6" .
 <#sw2_p6>		<speed>			"1Gb" .
 <#sw2_p6>		<type>			"UTP" .
-<#sw2_p6>		<connectedWith>		<#SP2> .
+<#sw2_p6>		<connectedWith>		<#SP2_eth0> .
 
 
 @forSome <#sw2_p7> .
@@ -373,28 +501,28 @@
 <#sw2_p7>		<number>		"7" .
 <#sw2_p7>		<speed>			"1Gb" .
 <#sw2_p7>		<type>			"UTP" .
-<#sw2_p7>		<connectedWith>		<#APMS> .
+<#sw2_p7>		<connectedWith>		<#APMS_eth0> .
 
 @forSome <#sw2_p8> .
 <#sw2_p8>		a <Port> .
 <#sw2_p8>		<number>		"8" .
 <#sw2_p8>		<speed>			"1Gb" .
 <#sw2_p8>		<type>			"UTP" .
-<#sw2_p8>		<connectedWith>		<#APM2> .
+<#sw2_p8>		<connectedWith>		<#APM2_eth0> .
 
 @forSome <#sw2_p9> .
 <#sw2_p9>		a <Port> .
 <#sw2_p9>		<number>		"9" .
 <#sw2_p9>		<speed>			"1Gb" .
 <#sw2_p9>		<type>			"UTP" .
-<#sw2_p9>		<connectedWith>		<#APM3> .
+<#sw2_p9>		<connectedWith>		<#APM3_eth0> .
 
 @forSome <#sw2_p10> .
 <#sw2_p10>		a <Port> .
 <#sw2_p10>		<number>		"10" .
 <#sw2_p10>		<speed>			"1Gb" .
 <#sw2_p10>		<type>			"UTP" .
-<#sw2_p10>		<connectedWith>		<#TOR> .
+<#sw2_p10>		<connectedWith>		<#TOR_eth0> .
 
 
 #
