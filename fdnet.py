@@ -111,14 +111,11 @@ def createParser ():
     return parser
 
 def parse(dot_base):
-
-
-
     p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
     o = URIRef(prefix+"/Subnet")
 
     for net in g.triples((None,p,o)):
-	# get name of subne
+	# get name of subnet
 	s = URIRef(net[0])
 	p = URIRef(prefix+"/name")
 	for name in g.triples((s,p,None)):
@@ -134,7 +131,7 @@ def parse(dot_base):
 	    p = URIRef(prefix+"/name")
 	    for sname in g.triples((s,p,None)):
 		server_name=sname[2]
-	#	get NetDev
+	    #	get NetDev
 	    s = URIRef(server[2])
 	    p = URIRef(prefix+"/hasDevice")
 	    server_ip2=[]
@@ -143,25 +140,36 @@ def parse(dot_base):
 		#fix me. Server can have multiple IP<->MAC links
 		s = URIRef(ndev[2])
 		p = URIRef(prefix+"/ip")
-		server_ip2=[]
 		for sip in g.triples((s,p,None)):
 		    server_ip2.append(sip[2])
+
 		s = URIRef(ndev[2])
 		p = URIRef(prefix+"/hwAddr")
 		for smac in g.triples((s,p,None)):
 		    server_mac=smac[2]
-	#get replicas
+	    #get replicas
 	    p = URIRef(prefix+"/replica")
 	    o = URIRef(server[2])
 	    for replicas in g.triples((None,p,o)):
-	    #get IPs of replicas
 		s = URIRef(replicas[0])
-	        p = URIRef(prefix+"/ip")
+		p = URIRef(prefix+"/hasDevice")
+		for ndev in g.triples((s,p,None)):
+		    #	get IP of server
+		    #fix me. Server can have multiple IP<->MAC links
+		    s = URIRef(ndev[2])
+		    p = URIRef(prefix+"/ip")
+		    #get IPs of replicas
+		    for rip in g.triples((s,p,None)):
+			server_ip2.append(rip[2])
+
+		s = URIRef(replicas[0])
+		p = URIRef(prefix+"/ip")
+		#get IPs
 		for rip in g.triples((s,p,None)):
-	    	    server_ip2.append(rip[2])
+		    server_ip2.append(rip[2])
 
 	    server_ip='['+'],['.join(server_ip2)+']'
-    
+
 	    print "\t"+server_name+":"+server_ip
 
 	    dot_server = dot_subnet.subgraph(name="cluster"+server_name, style='dotted', color='blue', label=server_name+":"+server_ip, overlap='false');
@@ -169,7 +177,7 @@ def parse(dot_base):
 	    s = URIRef(server[2])
 	    p = URIRef(prefix+"/hasProgram")
 	    for program in g.triples((s,p,None)):
-		#	get name of a program
+		#get name of a program
 		s = URIRef(program[2])
 		p = URIRef(prefix+"/name")
 		for pname in g.triples((s,p,None)):
@@ -182,7 +190,7 @@ def parse(dot_base):
 		    program_port=listen[2]
 		print "\t\t"+program_name+":"+program_port;
 		dot_server.add_node(program_name, shape="record", name=program_name, label=program_name+":"+program_port, overlap='false');
-		#	get connection
+		#get connection
 		s = URIRef(program[2])
 		p = URIRef(prefix+"/communicateWith")
 		program_port=""
@@ -196,34 +204,45 @@ def parse(dot_base):
 			p = URIRef(prefix+"/listenPort")
 			for rportname in g.triples((s,p,None)):
 			    remote_port=rportname[2]
-		    # dst server
+			# dst server
 			o = URIRef(rpname[0])
 			p = URIRef(prefix+"/hasProgram")
 			for rem_servers in g.triples((None,p,o)):
 			    remote_server=rem_servers[0]
-		    #
-		    #dst net device
+
+			#dst net device
 			s = URIRef(remote_server)
 			p = URIRef(prefix+"/hasDevice")
 			remote_ip2=[]
 			for ndev in g.triples((s,p,None)):
-			#get IP of server
+			    #get IP of server
 			    s = URIRef(ndev[2])
 			    p = URIRef(prefix+"/ip")
 			    for res in g.triples((s,p,None)):
 				remote_ip2.append(res[2])
-		    #get replicas
+
+			#get replicas
 			p = URIRef(prefix+"/replica")
 			o = URIRef(remote_server)
 			for rreplicas in g.triples((None,p,o)):
-			#get IPs of replicas
+			    s = URIRef(rreplicas[0])
+			    p = URIRef(prefix+"/hasDevice")
+			    for ndev in g.triples((s,p,None)):
+				#get IP of server
+				#fix me. Server can have multiple IP<->MAC links
+				s = URIRef(ndev[2])
+				p = URIRef(prefix+"/ip")
+				#get IPs of replicas
+				for drip in g.triples((s,p,None)):
+	    			    remote_ip2.append(drip[2])
+
 			    s = URIRef(rreplicas[0])
 			    p = URIRef(prefix+"/ip")
 			    for drip in g.triples((s,p,None)):
 	    			remote_ip2.append(drip[2])
+
 			remote_ip='['+'],['.join(remote_ip2)+']'
-#		    	print "Replica IPs: "+','.join(remote_ip2)
-		    #save results
+			#save results
 			dst_prog.append(rpname[2])
 			src_prog.append(program_name)
 			dst_port.append(remote_port)
@@ -271,17 +290,17 @@ def run_rules(namespace):
     f.write("#---output---\n");
     for i in range (0, len(u_src_ip)):
     #    print "alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
-        f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
-        m.write(str(sid)+"|| Wrong port connection\n");
-        sid+=1
+	f.write("alert tcp ["+u_src_ip[i]+"] any -> ["+u_dst_ip[i]+"] !["+u_dst_port[i]+"]"+ " (msg:\" Wrong port connection\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
+	m.write(str(sid)+"|| Wrong port connection\n");
+	sid+=1
 
     print "-------- overall --------" 
     f.write("#---overall---\n");
     for i in range (0, len(ret_src_ip)):
     #    print "alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
 	f.write("alert tcp ["+ret_src_ip[i]+"] any -> !["+ret_dst_ip[i]+"] any"+ " (msg:\" Outgoing connections to illegal IPs\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
-        m.write(str(sid)+"|| Outgoing connection to illegal IP\n");
-        sid+=1
+	m.write(str(sid)+"|| Outgoing connection to illegal IP\n");
+	sid+=1
     #    print "alert tcp !["+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Attempt to connect to wrong IP\"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)";
 	f.write("alert tcp !["+ret_dst_ip[i]+"] any -> ["+ret_src_ip[i]+"] any"+ " (msg:\" Incomming connections from illegal IPs \"; rev:1; classtype:tcp-connection; sid:"+str(sid)+";)\n");
 	m.write(str(sid)+"|| Incomming connection from illegal IPs\n");
@@ -303,9 +322,9 @@ def run_rules(namespace):
 	for nhw in g.triples((s,p,None)):
 	    tmp_hw=nhw[2]
 
-        f.write("alert ip ["+tmp_ip+"] any -> any any " + " (msg:\" Wrong hw addr\"; eth_src:"+tmp_hw+";rev:1; sid:"+str(sid)+";)\n");
-        m.write(str(sid)+"|| Wrong hw addr\n");
-        sid+=1
+	f.write("alert ip ["+tmp_ip+"] any -> any any " + " (msg:\" Wrong hw addr\"; eth_src:"+tmp_hw+";rev:1; sid:"+str(sid)+";)\n");
+	m.write(str(sid)+"|| Wrong hw addr\n");
+	sid+=1
 
 
     return
@@ -318,10 +337,10 @@ def run_plan(namespace):
 
     sheet_ip = workbook.add_worksheet("IP plan")
     merge_format = workbook.add_format({
-        'bold': 1,
-        'border': 1,
-        'align': 'center',
-        'valign': 'vcenter'})
+	'bold': 1,
+	'border': 1,
+	'align': 'center',
+	'valign': 'vcenter'})
 
     sheet_ip.merge_range('A1:D1', 'IP plan', merge_format)
 
@@ -331,23 +350,30 @@ def run_plan(namespace):
     p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
     o = URIRef(prefix+"/Server")
     for server in g.triples((None,p,o)):
-        t_name=''
-        t_ip=''
-        t_desc=''
-        s = URIRef(server[0])
-        p = URIRef(prefix+"/name")
-        for name in g.triples((s,p,None)):
+	t_name=''
+	t_ip=''
+	t_desc=''
+	s = URIRef(server[0])
+	p = URIRef(prefix+"/name")
+	for name in g.triples((s,p,None)):
 		t_name=name[2]
 
 	s = URIRef(server[0])
 	p = URIRef(prefix+"/hasDevice")
 	for ndev in g.triples((s,p,None)):
-    #get IP of server
+	    #get IP of server
 	    s = URIRef(ndev[2])
 	    p = URIRef(prefix+"/ip")
 	    for ip in g.triples((s,p,None)):
-	#only one IP per server now
+		#only one IP per server now
 		t_ip=ip[2]
+
+	#fixme, turn t_ip into list
+	s = URIRef(server[0])
+	p = URIRef(prefix+"/ip")
+	for ip in g.triples((s,p,None)):
+		t_ip=ip[2]
+
 
 	s = URIRef(server[0])
 	p = URIRef(prefix+"/description")
@@ -375,10 +401,10 @@ def run_connectivity(namespace):
 
     workbook = xlsxwriter.Workbook("output/"+fn_short+'_phys'+'.xlsx')
     merge_format = workbook.add_format({
-        'bold': 1,
-        'border': 1,
-        'align': 'center',
-        'valign': 'vcenter'})
+	'bold': 1,
+	'border': 1,
+	'align': 'center',
+	'valign': 'vcenter'})
 
     sheet_connect = workbook.add_worksheet("Physical+L2 connectivity LAN")
     sheet_connect.merge_range('A1:D1', "Physical+L2 connectivity LAN", merge_format)
@@ -386,7 +412,7 @@ def run_connectivity(namespace):
     connect=[]
     connect.append(['Source host',	'Port',	'Port type',	'VLAN',	'Switch', 'Port']);
 
-#servers
+    #servers
     p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
     o = URIRef(prefix+"/Server")
     for server in g.triples((None,p,o)):
@@ -399,36 +425,42 @@ def run_connectivity(namespace):
 
 	s = URIRef(server[0])
 	p = URIRef(prefix+"/hasDevice")
+	#replica without devices
+	if len(list(g.triples((s,p,None)))) ==0:
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
 	for ndev in g.triples((s,p,None)):
-    #get IP of server
+	    #get IP of server
 	    s = URIRef(ndev[2])
-    	    p = URIRef(prefix+"/name")
-    	    for name in g.triples((s,p,None)):
+	    p = URIRef(prefix+"/name")
+	    for name in g.triples((s,p,None)):
 		tmp.append(name[2]);
 
-    	    s = URIRef(ndev[2])
-    	    p = URIRef(prefix+"/type")
-    	    for ndtype in g.triples((s,p,None)):
+	    s = URIRef(ndev[2])
+	    p = URIRef(prefix+"/type")
+	    for ndtype in g.triples((s,p,None)):
 		ntype=ndtype[2];
 
-    	    s = URIRef(ndev[2])
-    	    p = URIRef(prefix+"/speed")
-    	    for ndspeed in g.triples((s,p,None)):
+	    s = URIRef(ndev[2])
+	    p = URIRef(prefix+"/speed")
+	    for ndspeed in g.triples((s,p,None)):
 		nspeed=ndspeed[2];
 
 	    tmp.append(nspeed+"-"+ntype)
-
 	    tmp.append("0");
-	#port id
-
-    	    p = URIRef(prefix+"/connectedWith")
-    	    o = URIRef(ndev[2])
-    	    for port in g.triples((None,p,o)):
+	    #port id
+	    p = URIRef(prefix+"/connectedWith")
+	    o = URIRef(ndev[2])
+	    for port in g.triples((None,p,o)):
 		p = URIRef(prefix+"/port")
 		o = URIRef(port[0])
 		#switch
-        	for switch in g.triples((None,p,o)):
-        	#switch name
+		for switch in g.triples((None,p,o)):
+		    #switch name
 		    s = URIRef(switch[0])
 		    p = URIRef(prefix+"/name")
 		    for s_name in g.triples((s,p,None)):
@@ -437,9 +469,9 @@ def run_connectivity(namespace):
 		s = URIRef(port[0])
 		p = URIRef(prefix+"/number")
 		for number in g.triples((s,p,None)):
-		    tmp.append(number[2])	
+		    tmp.append(number[2])
 
-    connect.append(tmp)
+	connect.append(tmp)
 
     row = 2
     col = 0
@@ -463,9 +495,9 @@ def run_placement(namespace):
     workbook = xlsxwriter.Workbook("output/"+fn_short+'_place'+'.xlsx')
     merge_format = workbook.add_format({
 	'bold': 1,
-        'border': 1,
+	'border': 1,
 	'align': 'center',
-        'valign': 'vcenter'})
+	'valign': 'vcenter'})
 
     sheet_dc = workbook.add_worksheet("Physical placement")
     sheet_dc.merge_range('A1:D1', "Physical placement", merge_format)
@@ -477,114 +509,122 @@ def run_placement(namespace):
     o = URIRef(prefix+"/Server")
     for server in g.triples((None,p,o)):
 	tmp=[]
-    #name
+	#name
 	s = URIRef(server[0])
 	p = URIRef(prefix+"/name")
 	for name in g.triples((s,p,None)):
 	    tmp.append(name[2])
-    #unit
+	#unit
 	p = URIRef(prefix+"/occupiedBy")
 	o = URIRef(server[0])
+	#replicat without placement
+	if len(list(g.triples((None,p,o)))) ==0:
+		tmp.append("n/d")
+		tmp.append("n/d")
 	for unit in g.triples((None,p,o)):
 	    #rack id
 	    p = URIRef(prefix+"/hasUnit")
 	    o = URIRef(unit[0])
 	    for racks in g.triples((None,p,o)):
-    	    #rack name
-	        s = URIRef(racks[0])
+		#rack name
+		s = URIRef(racks[0])
 		p = URIRef(prefix+"/name")
 		for r_name in g.triples((s,p,None)):
 		    tmp.append(r_name[2])
-	#unit name
+	    #unit name
 	    s = URIRef(unit[0])
 	    p = URIRef(prefix+"/number")
 	    for u_number in g.triples((s,p,None)):
 		tmp.append(u_number[2])
 
-    #model id
+	#model id
 	s = URIRef(server[0])
 	p = URIRef(prefix+"/model")
+	#replica without model
+	if len(list(g.triples((s,p,None)))) ==0:
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
+		tmp.append("n/d")
 	for models in g.triples((s,p,None)):
-	#model features
+	    #model features
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/power")
+	    p = URIRef(prefix+"/power")
 	    for power in g.triples((s,p,None)):
 		tmp.append(power[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/size")
+	    p = URIRef(prefix+"/size")
 	    for size in g.triples((s,p,None)):
 		tmp.append(size[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/weight")
+	    p = URIRef(prefix+"/weight")
 	    for weight in g.triples((s,p,None)):
 		tmp.append(weight[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/cooling")
+	    p = URIRef(prefix+"/cooling")
 	    for cooling in g.triples((s,p,None)):
 		tmp.append(cooling[2])
 
-    phys.append(tmp)
+	phys.append(tmp)
 
-#switches
-
+    #switches
     p = URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
     o = URIRef(prefix+"/Switch")
     for switch in g.triples((None,p,o)):
 	tmp=[]
-    #name
+	#name
 	s = URIRef(switch[0])
 	p = URIRef(prefix+"/name")
 	for name in g.triples((s,p,None)):
 	    tmp.append(name[2])
-    #unit
+	#unit
 	p = URIRef(prefix+"/occupiedBy")
 	o = URIRef(switch[0])
 	for unit in g.triples((None,p,o)):
 	#rack id
 	    p = URIRef(prefix+"/hasUnit")
 	    o = URIRef(unit[0])
-    	    for racks in g.triples((None,p,o)):
-    	    #rack name
+	    for racks in g.triples((None,p,o)):
+	    #rack name
 		s = URIRef(racks[0])
 		p = URIRef(prefix+"/name")
 		for r_name in g.triples((s,p,None)):
 		    tmp.append(r_name[2])
-        #unit name
+	    #unit name
 	    s = URIRef(unit[0])
 	    p = URIRef(prefix+"/number")
 	    for u_number in g.triples((s,p,None)):
 		tmp.append(u_number[2])
 
-    #model id
+	#model id
 	s = URIRef(switch[0])
 	p = URIRef(prefix+"/model")
 	for models in g.triples((s,p,None)):
-	#model features
+	    #model features
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/power")
+	    p = URIRef(prefix+"/power")
 	    for power in g.triples((s,p,None)):
 		tmp.append(power[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/size")
+	    p = URIRef(prefix+"/size")
 	    for size in g.triples((s,p,None)):
 		tmp.append(size[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/weight")
+	    p = URIRef(prefix+"/weight")
 	    for weight in g.triples((s,p,None)):
 		tmp.append(weight[2])
 
 	    s = URIRef(models[2])
-    	    p = URIRef(prefix+"/cooling")
+	    p = URIRef(prefix+"/cooling")
 	    for cooling in g.triples((s,p,None)):
 		tmp.append(cooling[2])
 
     phys.append(tmp)
-
 
     row = 2
     col = 0
@@ -592,20 +632,18 @@ def run_placement(namespace):
     for line in phys:
 	sheet_dc.write(row, col, line[0])
 	sheet_dc.write(row, col+1, line[1])
-        sheet_dc.write(row, col+2, line[2])
+	sheet_dc.write(row, col+2, line[2])
 	sheet_dc.write(row, col+3, line[3])
-        sheet_dc.write(row, col+4, line[4])
+	sheet_dc.write(row, col+4, line[4])
 	sheet_dc.write(row, col+5, line[5])
-        sheet_dc.write(row, col+6, line[6])
+	sheet_dc.write(row, col+6, line[6])
 	row += 1
 
     workbook.close()
 
-
     return
 
 if __name__ == '__main__':
-
     parser = createParser()
     namespace = parser.parse_args(sys.argv[1:])
 
@@ -616,20 +654,20 @@ if __name__ == '__main__':
 	os.makedirs("output")
 
     if namespace.command == "all":
-        run_diagram(namespace)
-        run_rules(namespace)
-        run_plan(namespace)
-        run_connectivity(namespace)
-        run_placement(namespace)
+	run_diagram(namespace)
+	run_rules(namespace)
+	run_plan(namespace)
+	run_connectivity(namespace)
+	run_placement(namespace)
     elif namespace.command == "diag":
-        run_diagram (namespace)
+	run_diagram (namespace)
     elif namespace.command == "rules":
-        run_rules (namespace)
+	run_rules (namespace)
     elif namespace.command == "plan":
-        run_plan (namespace)
+	run_plan (namespace)
     elif namespace.command == "conn":
-        run_connectivity (namespace)
+	run_connectivity (namespace)
     elif namespace.command == "place":
-        run_placement (namespace)
+	run_placement (namespace)
     else:
-        parser.print_help()
+	parser.print_help()
